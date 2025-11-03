@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "kpi_mappings": {
+    "History": ["history"],
+    "Nature": ["nature"],
+    "Art": ["art"],
+    "Family": ["family"]
+  },
+  "activities_catalog": [
+    {
+      "authoritative_name": "old_town_walk",
+      "descriptive_name": "Old Town Walk",
+      "descriptive_text": "Leisurely stroll through historic streets with landmarks.",
+      "experiences": ["history", "family"],
+      "kid_friendly": true,
+      "logistics": { "activity_hours": 2.0, "notes": "Comfortable shoes recommended." }
+    },
+    {
+      "authoritative_name": "city_park",
+      "descriptive_name": "City Park",
+      "descriptive_text": "Open green spaces, small pond, and seasonal flowers.",
+      "experiences": ["nature", "family"],
+      "kid_friendly": true,
+      "logistics": { "activity_hours": 1.5 }
+    },
+    {
+      "authoritative_name": "art_museum",
+      "descriptive_name": "Art Museum",
+      "descriptive_text": "Compact collection featuring local and modern art.",
+      "experiences": ["art"],
+      "kid_friendly": false,
+      "logistics": { "activity_hours": 2.0 }
+    }
+  ],
+  "day_collection": [
+    {
+      "date": "2025-01-01",
+      "overview_text": "Arrive, light exploration, and a relaxed evening.",
+      "day_parts": [
+        {
+          "part": "Morning",
+          "hours": "08:00-11:00am",
+          "activity_authoritative_name": "old_town_walk",
+          "logistics": { "transit_hours": 0.5, "transit_kpis": ["Train"] }
+        },
+        {
+          "part": "Afternoon",
+          "hours": "12:00pm-04:00pm",
+          "activity_authoritative_name": "city_park",
+          "logistics": { "transit_hours": 0.3, "transit_kpis": ["Bus"] }
+        },
+        {
+          "part": "Evening",
+          "hours": "05:00pm-08:00pm",
+          "activity_authoritative_name": null,
+          "logistics": { "transit_hours": 0.2, "transit_kpis": [] }
+        }
+      ]
+    }
+  ],
+  "segment_collection": [
+    {
+      "title": "City Intro",
+      "date_range": "2025-01-01 to 2025-01-01",
+      "overview_text": "A simple first-day segment covering key highlights."
+    }
+  ],
+  "trip_itinerary": [
+    {
+      "title": "Sample Trip",
+      "date_range": "2025-01-01 to 2025-01-01",
+      "overview_text": "Generic example demonstrating the data model."
+    }
+  ]
+}
+
