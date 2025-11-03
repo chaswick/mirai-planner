@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Trip Planner - Renderer (Clean v4)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ========== Design Tokens ========== */
+    :root {
+      --bg: #ffffff;
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --chip: #eef2ff;
+      --soft: #f8fafc;
+    }
+
+    /* ========== Base ========== */
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== Header & Controls ========== */
+    header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--bg);
+    }
+    h1 { margin: 0; font-size: 20px; }
+    .subtitle { color: var(--muted); font-size: 13px; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 22px;
+      align-items: center;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+    .controls label { font-size: 12px; color: var(--muted); display: block; }
+    .controls input[type="file"] { font-size: 12px; }
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .link { color: #2563eb; cursor: pointer; text-decoration: underline; font-size: 13px; }
+    .hidden { display: none !important; }
+
+    /* ========== Cards & Layout ========== */
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+      margin: 14px 22px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .card-title { margin: 0; font-size: 18px; }
+    .section-title {
+      margin: .25rem 0 .3rem;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: #374151;
+    }
+    p { margin: 0 0 .5rem 0; line-height: 1.6; font-size: 13.6px; }
+    .grid > div { margin-bottom: 8px; }
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .badge {
+      background: var(--chip);
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .badge .v {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 0 6px;
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .footnote { margin-top: 6px; font-size: 12px; color: #374151; }
+    .notes {
+      margin-top: 8px;
+      height: 52px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 6px;
+      color: #6b7280;
+      font-size: 12.6px;
+    }
+
+    @media print {
+      @page { margin: 10mm; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Trip Planner — Renderer</h1>
+      <div class="subtitle">Load your trip JSON to render the guide</div>
+    </div>
+  </header>
+
+  <div id="controls" class="controls">
+    <div>
+      <label for="dataFile">Trip JSON</label>
+      <input id="dataFile" type="file" accept=".json,application/json" />
+    </div>
+    <button id="loadBtn" class="btn">Render Guide</button>
+  </div>
+
+  <div id="reloadWrap" class="controls hidden">
+    <span id="reloadLink" class="link" tabindex="0" role="button" aria-label="Reload trip JSON">Load a different trip JSON</span>
+  </div>
+
+  <main id="renderTarget"></main>
+
+  <script>
+  // ========== State/Helpers ==========
+  const state = { data: null };
+  const $ = (sel, el=document) => el.querySelector(sel);
+  function el(tag, className, text) {
+    const n = document.createElement(tag);
+    if (className) n.className = className;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  const escapeHtml = (s) => String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+  async function readAsJson(file) {
+    const text = await file.text();
+    return JSON.parse(text);
+  }
+
+  function parseRangeFromText(txt) {
+    const m = String(txt || '').match(/^(\d{4}-\d{2}-\d{2})\s+to\s+(\d{4}-\d{2}-\d{2})$/);
+    return m ? { start: m[1], end: m[2] } : null;
+  }
+  function parseDateISO(d) {
+    try {
+      const dt = new Date(d + 'T00:00:00Z');
+      return dt.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    } catch { return String(d || ''); }
+  }
+  function fmtHours(h) { return (Number(h) || 0).toFixed(1) + 'h'; }
+
+  function buildActivityLookup(acts) {
+    const m = new Map();
+    for (const a of acts || []) if (a && a.authoritative_name) m.set(a.authoritative_name, a);
+    return m;
+  }
+
+  function aggregateKpisForDay(day, lookup, kpiMap) {
+    const allTags = new Set();
+    for (const dp of day.day_parts || []) {
+      if (!dp.activity_authoritative_name) continue;
+      const a = lookup.get(dp.activity_authoritative_name);
+      for (const t of a?.experiences || []) allTags.add(t);
+    }
+    const counts = new Map();
+    for (const [k, tags] of Object.entries(kpiMap || {})) {
+      const n = [...new Set(tags)].reduce((acc, t) => acc + (allTags.has(t) ? 1 : 0), 0);
+      if (n) counts.set(k, n);
+    }
+    return counts;
+  }
+
+  function aggregateKpisForDays(days, lookup, kpiMap) {
+    const totals = new Map();
+    for (const d of days || []) {
+      for (const [k, v] of aggregateKpisForDay(d, lookup, kpiMap).entries()) {
+        totals.set(k, (totals.get(k) || 0) + v);
+      }
+    }
+    return totals;
+  }
+
+  function aggregateTimeForDay(day, lookup) {
+    let activityH = 0, transitH = 0;
+    for (const dp of day.day_parts || []) {
+      if (dp.activity_authoritative_name) {
+        const a = lookup.get(dp.activity_authoritative_name);
+        if (typeof a?.logistics?.activity_hours === 'number') activityH += a.logistics.activity_hours;
+      }
+      if (typeof dp?.logistics?.transit_hours === 'number') transitH += dp.logistics.transit_hours;
+    }
+    return { activityH, transitH };
+  }
+  function aggregateTimeForDays(days, lookup) {
+    return (days || []).reduce((acc, d) => {
+      const t = aggregateTimeForDay(d, lookup);
+      acc.activityH += t.activityH; acc.transitH += t.transitH; return acc;
+    }, { activityH: 0, transitH: 0 });
+  }
+
+  function getRange(obj) {
+    if (obj && obj.start_date && obj.end_date) return { start: obj.start_date, end: obj.end_date };
+    if (obj && obj.date_range) return parseRangeFromText(obj.date_range);
+    return null;
+  }
+  function dayInRange(day, range) {
+    return range && day.date >= range.start && day.date <= range.end;
+  }
+
+  // ========== UI Builders ==========
+  function renderBadgesRow(map) {
+    const row = el('div', 'badges');
+    for (const [k, v] of Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+      const b = el('span', 'badge');
+      const kSpan = el('span', 'k', k);
+      const vSpan = el('span', 'v', String(v));
+      b.append(kSpan, vSpan);
+      row.appendChild(b);
+    }
+    return row;
+  }
+
+  function makeCard(titleText) {
+    const card = el('section', 'card');
+    const header = el('div', 'card-header');
+    const title = el('h3', 'card-title', titleText);
+    header.appendChild(title);
+    card.appendChild(header);
+    const grid = el('div', 'grid');
+    card.appendChild(grid);
+    return { card, grid, footer: null };
+  }
+
+  function addOverviewSection(grid, text) {
+    if (!text) return;
+    const sec = el('div');
+    const h4 = el('div', 'section-title', 'Overview');
+    const block = el('div');
+    block.innerHTML = `<p>${escapeHtml(text)}</p>`;
+    sec.append(h4, block);
+    grid.appendChild(sec);
+  }
+
+  function addFootnote(card, totals) {
+    const foot = el('div', 'footnote', `${fmtHours(totals.activityH)} activities · ${fmtHours(totals.transitH)} transit`);
+    card.appendChild(foot);
+  }
+
+  // ========== Renderers ==========
+  function renderTripCards(root, data, lookup) {
+    const trips = Array.isArray(data.trip_itinerary) ? data.trip_itinerary : [];
+    const days = (data.day_collection || []).slice().sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+    for (const t of trips) {
+      const range = getRange(t);
+      const rangeDays = range ? days.filter(d => dayInRange(d, range)) : days;
+      const kpis = aggregateKpisForDays(rangeDays, lookup, data.kpi_mappings || {});
+      const totals = aggregateTimeForDays(rangeDays, lookup);
+
+      const title = `${t.title || 'Trip'} — (${t.date_range || (range ? `${range.start} to ${range.end}` : '')})`;
+      const { card, grid } = makeCard(title);
+      addOverviewSection(grid, t.overview_text);
+      grid.appendChild(renderBadgesRow(kpis));
+      addFootnote(card, totals);
+      root.appendChild(card);
+    }
+  }
+
+  function renderSegmentCard(root, seg, segDays, lookup, data) {
+    const kpis = aggregateKpisForDays(segDays, lookup, data.kpi_mappings || {});
+    const totals = aggregateTimeForDays(segDays, lookup);
+    const r = getRange(seg);
+    const rangeText = seg.date_range || (r ? `${r.start} to ${r.end}` : '');
+    const title = `${seg.title || 'Segment'} — (${rangeText})`;
+
+    const { card, grid } = makeCard(title);
+    addOverviewSection(grid, seg.overview_text);
+    grid.appendChild(renderBadgesRow(kpis));
+    addFootnote(card, totals);
+    root.appendChild(card);
+  }
+
+  function renderDay(root, day, lookup, kpiMap) {
+    const parts = (day.day_parts || []).map(dp => dp.activity_authoritative_name).filter(Boolean);
+    const title = `${parseDateISO(day.date)} — ${parts.join(' · ') || 'Open / Buffer'}`;
+
+    const { card, grid } = makeCard(title);
+    addOverviewSection(grid, day.overview_text);
+
+    const kpis = aggregateKpisForDay(day, lookup, kpiMap || {});
+    grid.appendChild(renderBadgesRow(kpis));
+
+    for (const dp of day.day_parts || []) {
+      const sec = el('div');
+      const h4 = el('div', 'section-title', `${dp.part} (${dp.hours})`);
+      const block = el('div');
+
+      if (dp.activity_authoritative_name) {
+        const act = lookup.get(dp.activity_authoritative_name);
+        if (act) {
+          block.innerHTML += `<p><strong>${escapeHtml(act.descriptive_name)}</strong>: ${escapeHtml(act.descriptive_text)}</p>`;
+          const pieces = [];
+          if (dp.logistics?.transit_kpis?.length) pieces.push(escapeHtml(dp.logistics.transit_kpis.join(' · ')));
+          if (typeof act.logistics?.activity_hours === 'number') pieces.push(`${act.logistics.activity_hours.toFixed(1)}h on site`);
+          if (typeof dp.logistics?.transit_hours === 'number') pieces.push(`${dp.logistics.transit_hours.toFixed(1)}h transit`);
+          if (pieces.length) block.innerHTML += `<p class="how"><em>${pieces.join(' · ')}</em></p>`;
+        } else {
+          block.innerHTML = `<p><em>Activity not found in catalog: ${escapeHtml(dp.activity_authoritative_name)}</em></p>`;
+        }
+      } else {
+        block.innerHTML = `<p><em>Open / Buffer</em></p>`;
+        const pieces = [];
+        if (dp.logistics?.transit_kpis?.length) pieces.push(escapeHtml(dp.logistics.transit_kpis.join(' · ')));
+        if (typeof dp.logistics?.transit_hours === 'number') pieces.push(`${dp.logistics.transit_hours.toFixed(1)}h transit`);
+        if (pieces.length) block.innerHTML += `<p class="how"><em>${pieces.join(' · ')}</em></p>`;
+      }
+
+      sec.append(h4, block);
+      grid.appendChild(sec);
+    }
+
+    addFootnote(card, aggregateTimeForDay(day, lookup));
+    const notes = el('div', 'notes', 'Notes / Food: ');
+    card.appendChild(notes);
+    root.appendChild(card);
+  }
+
+  // ========== Orchestration ==========
+  function clearRender() { $('#renderTarget').innerHTML = ''; }
+  function togglePicker(show) {
+    $('#controls').classList.toggle('hidden', !show);
+    $('#reloadWrap').classList.toggle('hidden', show);
+  }
+
+  function renderAll() {
+    clearRender();
+    const data = state.data;
+    const root = $('#renderTarget');
+    const lookup = buildActivityLookup(data.activities_catalog || []);
+
+    renderTripCards(root, data, lookup);
+
+    const days = (data.day_collection || []).slice().sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+    const segments = Array.isArray(data.segment_collection) ? data.segment_collection : [];
+    const segInfo = segments.map(seg => {
+      const range = getRange(seg);
+      const segDays = range ? days.filter(d => dayInRange(d, range)) : [];
+      const firstDate = segDays.length ? segDays[0].date : null;
+      return { seg, segDays, firstDate, rendered: false };
+    });
+    const byFirstDate = new Map();
+    for (const info of segInfo) {
+      const key = info.firstDate;
+      if (!byFirstDate.has(key)) byFirstDate.set(key, []);
+      byFirstDate.get(key).push(info);
+    }
+
+    for (const d of days) {
+      const infos = byFirstDate.get(d.date) || [];
+      for (const info of infos) {
+        if (!info.rendered) {
+          renderSegmentCard(root, info.seg, info.segDays, lookup, data);
+          info.rendered = true;
+        }
+      }
+      renderDay(root, d, lookup, data.kpi_mappings || {});
+    }
+
+    const stray = byFirstDate.get(null) || [];
+    for (const info of stray) {
+      if (!info.rendered) {
+        renderSegmentCard(root, info.seg, info.segDays, lookup, data);
+        info.rendered = true;
+      }
+    }
+  }
+
+  // ========== Events ==========
+  $('#loadBtn').addEventListener('click', async () => {
+    const dataInput = $('#dataFile');
+    if (!(dataInput.files && dataInput.files[0])) { alert('Select a trip JSON'); return; }
+    try {
+      state.data = await readAsJson(dataInput.files[0]);
+    } catch (e) {
+      alert('Could not read JSON: ' + (e?.message || e));
+      return;
+    }
+    togglePicker(false);
+    renderAll();
+  });
+
+  $('#reloadLink').addEventListener('click', () => {
+    state.data = null;
+    $('#dataFile').value = '';
+    clearRender();
+    togglePicker(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  $('#reloadLink').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      $('#reloadLink').click();
+    }
+  });
+  </script>
+</body>
+</html>
+

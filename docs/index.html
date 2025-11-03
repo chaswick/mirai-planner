@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirai Planner — Docs</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 8px 0; font-size: 22px; }
+    p { margin: 0 0 14px 0; color: #374151; }
+    ul { margin: 0; padding-left: 18px; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px; max-width: 760px; }
+    .muted { color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mirai Planner</h1>
+    <p>Static tools for planning and rendering trips.</p>
+    <ul>
+      <li><a href="renderer/index.html">Renderer</a> — Load a trip JSON and print the guide</li>
+      <li><a href="editor/index.html">Editor</a> — Hosted editor (uses vendor fallbacks if present)</li>
+    </ul>
+    <p>Sample data: <a href="samples/converted_0.0.3.json" download>converted_0.0.3.json</a></p>
+    <p class="muted">Tip: The editor asks you to choose the schema file (`schema/trip-planner.schema.json`) and your JSON.</p>
+  </div>
+</body>
+</html>

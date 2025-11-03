@@ -1,0 +1,16 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs / caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.parcel-cache
+.cache
+
+# Editors
+.idea/
+.vscode/
+*.swp
+

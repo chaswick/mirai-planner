@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Trip Planner: Minimal Tree Editor</title>
+  <!-- Prefer local vendor copies if present; fallback to CDNs -->
+  <link rel="preload" as="script" href="../vendor/ajv-6.12.6.min.js">
+  <script>
+    const INTEGRITY = {
+      'https://cdn.jsdelivr.net/npm/ajv@6.12.6/dist/ajv.min.js': 'sha384-nlk7aCMqzevcPwEKDwTs2sEe0gbG1vhyjIx+rsZfCMZ2WPWVv/lVci5osN93HdYY',
+      'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js': 'sha384-eeLEhtwdMwD3X9y+8P3Cn7Idl/M+w8H4uZqkgD/2eJVkWIN1yKzEj6XegJ9dL3q0',
+      'https://cdn.jsdelivr.net/npm/jsoneditor@9.10.3/dist/jsoneditor.min.js': 'sha384-Jateb5CltzcDRLZOpKfwsPn7gbuhmtPpSGmo2fRGMfkOa08A7C//27CJays4yUoA',
+      'https://cdn.jsdelivr.net/npm/jsoneditor@9.10.3/dist/jsoneditor.min.css': 'sha384-eMcekMY6pc8ascn1bXAhRgc2uWl1nqKG7D6uWXqI7O16hNNmwWHGE4f2AouHBoqT'
+    };
+    function loadScript(srcs, cb){
+      (function next(i){ if(i>=srcs.length) return cb(new Error('load fail'));
+        var s=document.createElement('script'); s.src=srcs[i];
+        var sri = INTEGRITY[srcs[i]]; if (sri) { s.integrity = sri; s.crossOrigin = 'anonymous'; }
+        s.onload=function(){cb()}; s.onerror=function(){ next(i+1); };
+        document.head.appendChild(s);
+      })(0);
+    }
+    function loadCss(hrefs){
+      hrefs.forEach(function(h){ var l=document.createElement('link'); l.rel='stylesheet'; l.href=h; var sri=INTEGRITY[h]; if (sri) { l.integrity=sri; l.crossOrigin='anonymous'; } document.head.appendChild(l); });
+    }
+    // JSONEditor CSS (local then CDN)
+    loadCss([
+      '../vendor/jsoneditor.min.css',
+      'https://cdn.jsdelivr.net/npm/jsoneditor@9.10.3/dist/jsoneditor.min.css'
+    ]);
+  </script>
+  <link rel="stylesheet" href="./trip_planner_0.0.1.css">
+  <script>
+    // Ajv, Sortable, JSONEditor loaders with fallback
+    loadScript([
+      '../vendor/ajv-6.12.6.min.js',
+      'https://cdn.jsdelivr.net/npm/ajv@6.12.6/dist/ajv.min.js'
+    ], function(){});
+    loadScript([
+      '../vendor/Sortable.min.js',
+      'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js'
+    ], function(){});
+    loadScript([
+      '../vendor/jsoneditor.min.js',
+      'https://cdn.jsdelivr.net/npm/jsoneditor@9.10.3/dist/jsoneditor.min.js'
+    ], function(){});
+  </script>
+</head>
+<body>
+  <div>
+    <label>Schema: <input type="file" id="schemaFile" accept=".json,application/json"></label>
+    <label>Data JSON: <input type="file" id="jsonFile" accept=".json,application/json"></label>
+    <button id="validate">Validate</button>
+    <button id="save">Download JSON</button>
+    <small id="status"></small>
+  </div>
+  <pre id="out"></pre>
+
+  <div id="tabbar">
+    <button class="tab-btn active" data-tab="activities">Activities</button>
+    <button class="tab-btn" data-tab="days">Days</button>
+    <button class="tab-btn" data-tab="segments">Segments</button>
+    <button class="tab-btn" data-tab="trips">Trips</button>
+    <button class="tab-btn" data-tab="kpis">KPIs</button>
+  </div>
+
+  <div id="form-area"></div>
+  <div id="panes">
+    <section id="tab-activities" class="tab-pane active">
+      <h3>Activities</h3>
+      <button data-add="activities_catalog">Add Activity</button>
+      <div id="activities_catalog"></div>
+    </section>
+    <section id="tab-days" class="tab-pane">
+      <h3>Days</h3>
+      <div class="days-two-col">
+        <div class="days-left">
+          <button data-add="day_collection">Add Day</button>
+          <div id="day_collection"></div>
+        </div>
+        <div class="days-right">
+          <div id="days-form-area"></div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-segments" class="tab-pane">
+      <h3>Segments</h3>
+      <div class="segments-two-col">
+        <div class="segments-left">
+          <button data-add="segment_collection">Add Segment</button>
+          <div id="segment_collection"></div>
+        </div>
+        <div class="segments-right">
+          <div id="segments-form-area"></div>
+          <div id="segment-days-list" class="derived-list"></div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-trips" class="tab-pane">
+      <h3>Trips</h3>
+      <div class="trips-two-col">
+        <div class="trips-left">
+          <button data-add="trip_itinerary">Add Trip</button>
+          <div id="trip_itinerary"></div>
+        </div>
+        <div class="trips-right">
+          <div id="trips-form-area"></div>
+          <div id="trip-segments-list" class="derived-list"></div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-kpis" class="tab-pane">
+      <h3>KPIs</h3>
+      <button id="addKpi">Add KPI</button>
+      <div id="kpi_mappings"></div>
+    </section>
+  </div>
+
+  <script src="./trip_planner_0.0.1.js"></script>
+  <script>
+    // Fix validation status output (clean 'VALID')
+    (function() {
+      function overrideValidate(){
+        var btn = document.getElementById('validate');
+        if (!btn) return;
+        var repl = btn.cloneNode(true);
+        btn.parentNode.replaceChild(repl, btn);
+        repl.addEventListener('click', function(){
+          if (typeof Ajv !== 'function') { log('Ajv not available.'); return; }
+          if (!loadedSchema) { log('No schema available. Choose a schema file.'); return; }
+          if (!dataDoc) { log('No data loaded.'); return; }
+          var ajv;
+          try { ajv = new Ajv({allErrors:true, strict:false}); }
+          catch(e){ log('Ajv constructor error: '+e.message); return; }
+          var validate;
+          try { validate = ajv.compile(loadedSchema); }
+          catch(e){ log('Schema compile error: '+e.message); return; }
+          var ok = false;
+          try { ok = validate(dataDoc); }
+          catch(e){ log('Validation runtime error: '+e.message); return; }
+          if (ok) {
+            var statusEl = document.getElementById('status'); if (statusEl) statusEl.textContent = 'VALID';
+            var outEl = document.getElementById('out'); if (outEl) outEl.textContent = '';
+          } else {
+            logJSON(validate.errors);
+          }
+        });
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', overrideValidate);
+      else overrideValidate();
+    })();
+  </script>
+</body>
+</html>
