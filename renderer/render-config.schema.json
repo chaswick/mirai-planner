@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/render-config.schema.json",
+  "title": "Trip Renderer Configuration",
+  "description": "Configuration for optional rendering modules in the trip planner renderer",
+  "type": "object",
+  "properties": {
+    "style": {
+      "type": "string",
+      "enum": ["clean", "daily-planner"],
+      "default": "clean",
+      "description": "Base rendering style: 'clean' (current) or 'daily-planner' (Japan-inspired)"
+    },
+    "modules": {
+      "type": "object",
+      "description": "Optional modules to enable/disable",
+      "properties": {
+        "wordBank": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "words": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["kanji", "romaji", "english"],
+                "properties": {
+                  "kanji": { "type": "string" },
+                  "romaji": { "type": "string" },
+                  "english": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "phraseOfDay": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "phrases": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "phrase", "romaji", "english"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "phrase": { "type": "string" },
+                  "romaji": { "type": "string" },
+                  "english": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "kanjiOfDay": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "kanjis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "kanji", "romaji", "english"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "kanji": { "type": "string" },
+                  "romaji": { "type": "string" },
+                  "english": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "funFacts": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "facts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "fact"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "fact": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "scavengerHunt": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "hunts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "items"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "title": { "type": "string" },
+                  "items": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "kidQuest": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "quests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "tasks"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "tasks": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mealsChecklist": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show breakfast/lunch/dinner checkboxes"
+        },
+        "travelChecklist": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show travel mode checkboxes (taxi, train, walking, etc.)"
+        },
+        "notesSection": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include ruled lines for handwritten notes"
+        },
+        "dayRating": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include end-of-day rating bubbles"
+        },
+        "decorativeWatermark": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "text": { "type": "string", "description": "Kanji or text for watermark" }
+          }
+        },
+        "japaneseMicroseasons": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "seasons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["startDate", "endDate", "kanji", "romaji", "english"],
+                "properties": {
+                  "startDate": { "type": "string", "format": "date" },
+                  "endDate": { "type": "string", "format": "date" },
+                  "kanji": { "type": "string" },
+                  "romaji": { "type": "string" },
+                  "english": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "japaneseLabels": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show Japanese labels alongside English (e.g., 朝 for Morning)"
+        }
+      }
+    }
+  }
+}

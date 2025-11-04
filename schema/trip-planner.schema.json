@@ -56,6 +56,13 @@
       "items": { "$ref": "#/$defs/TripItem" },
       "minItems": 1
     }
+    ,
+    "hotels": {
+      "type": "array",
+      "description": "Optional list of hotels / places where travelers stay.",
+      "items": { "$ref": "#/$defs/Hotel" },
+      "uniqueItems": true
+    }
   },
 
   "$defs": {
@@ -101,6 +108,41 @@
           "type": "string",
           "description": "Optional notes for the activity."
         }
+        ,"location": { "$ref": "#/$defs/GeoPoint" },
+        "address": { "type": "string" },
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+
+    "GeoPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat","lng"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+
+    "Hotel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritative_name","name","address","location"],
+      "properties": {
+        "authoritative_name": { "$ref": "#/$defs/NonEmptyString" },
+        "name": { "$ref": "#/$defs/NonEmptyString" },
+        "address": { "type": "string" },
+        "location": { "$ref": "#/$defs/GeoPoint" },
+        "amenities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/NonEmptyString" },
+          "uniqueItems": true
+        },
+        "check_in": { "type": "string", "pattern": "^\\d{2}:\\d{2}$", "description": "HH:MM (local)" },
+        "check_out": { "type": "string", "pattern": "^\\d{2}:\\d{2}$", "description": "HH:MM (local)" },
+        "reservation_number": { "type": "string" },
+        "contact": { "type": "string" }
       }
     },
 
@@ -182,6 +224,10 @@
       "properties": {
         "date": { "$ref": "#/$defs/ISODate" },
         "overview_text": { "$ref": "#/$defs/NonEmptyString" },
+        "hotel_authoritative_name": {
+          "oneOf": [ { "$ref": "#/$defs/NonEmptyString" }, { "type": "null" } ],
+          "description": "Reference to a hotels.authoritative_name indicating where the party is staying that day."
+        },
         "day_parts": {
           "type": "array",
           "minItems": 3,
@@ -221,7 +267,7 @@
       }
     },
 
-    "TripItem": {
+  "TripItem": {
       "type": "object",
       "additionalProperties": false,
       "required": ["title", "date_range", "overview_text"],

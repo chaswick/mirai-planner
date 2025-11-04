@@ -1,0 +1,339 @@
+{
+  "style": "daily-planner",
+  "modules": {
+    "wordBank": {
+      "enabled": true,
+      "words": [
+        { "kanji": "おはよう", "romaji": "ohayō", "english": "good morning" },
+        { "kanji": "ありがとう", "romaji": "arigatō", "english": "thank you" },
+        { "kanji": "すみません", "romaji": "sumimasen", "english": "excuse me" },
+        { "kanji": "おいしい", "romaji": "oishii", "english": "delicious" },
+        { "kanji": "駅", "romaji": "eki", "english": "station" },
+        { "kanji": "寺", "romaji": "tera", "english": "temple" },
+        { "kanji": "神社", "romaji": "jinja", "english": "shrine" },
+        { "kanji": "城", "romaji": "shiro", "english": "castle" },
+        { "kanji": "鹿", "romaji": "shika", "english": "deer" },
+        { "kanji": "温泉", "romaji": "onsen", "english": "hot spring" },
+        { "kanji": "山", "romaji": "yama", "english": "mountain" },
+        { "kanji": "庭園", "romaji": "teien", "english": "garden" },
+        { "kanji": "動物園", "romaji": "dōbutsuen", "english": "zoo" },
+        { "kanji": "美術館", "romaji": "bijutsukan", "english": "art museum" },
+        { "kanji": "トイレ", "romaji": "toire", "english": "restroom" },
+        { "kanji": "写真", "romaji": "shashin", "english": "photo" },
+        { "kanji": "食べ物", "romaji": "tabemono", "english": "food" },
+        { "kanji": "お土産", "romaji": "omiyage", "english": "souvenir" }
+      ]
+    },
+    "phraseOfDay": {
+      "enabled": true,
+      "phrases": [
+        { "date": "2025-11-18", "phrase": "いただきます", "romaji": "itadakimasu", "english": "Let's eat (before meals)" },
+        { "date": "2025-11-19", "phrase": "鹿せんべいください", "romaji": "shika senbei kudasai", "english": "Deer crackers please" },
+        { "date": "2025-11-20", "phrase": "たこ焼きください", "romaji": "takoyaki kudasai", "english": "Takoyaki please" },
+        { "date": "2025-11-21", "phrase": "金色がきれいですね", "romaji": "kin-iro ga kirei desu ne", "english": "The gold is beautiful" },
+        { "date": "2025-11-22", "phrase": "温泉は気持ちいいです", "romaji": "onsen wa kimochi ii desu", "english": "The hot spring feels good" },
+        { "date": "2025-11-23", "phrase": "富士山が見えますか", "romaji": "fujisan ga miemasu ka", "english": "Can you see Mt. Fuji?" },
+        { "date": "2025-11-24", "phrase": "きれいな庭園ですね", "romaji": "kirei na teien desu ne", "english": "Beautiful garden, isn't it" },
+        { "date": "2025-11-25", "phrase": "パンダはどこですか", "romaji": "panda wa doko desu ka", "english": "Where are the pandas?" },
+        { "date": "2025-11-26", "phrase": "人がたくさんいますね", "romaji": "hito ga takusan imasu ne", "english": "So many people, huh" }
+      ]
+    },
+    "kanjiOfDay": {
+      "enabled": true,
+      "kanjis": [
+        { "date": "2025-11-18", "kanji": "京", "romaji": "kyō", "english": "Capital (Kyoto)" },
+        { "date": "2025-11-19", "kanji": "鹿", "romaji": "shika", "english": "Deer" },
+        { "date": "2025-11-20", "kanji": "城", "romaji": "shiro", "english": "Castle" },
+        { "date": "2025-11-21", "kanji": "金", "romaji": "kin", "english": "Gold" },
+        { "date": "2025-11-22", "kanji": "湯", "romaji": "yu", "english": "Hot water" },
+        { "date": "2025-11-23", "kanji": "山", "romaji": "yama", "english": "Mountain" },
+        { "date": "2025-11-24", "kanji": "光", "romaji": "hikari", "english": "Light" },
+        { "date": "2025-11-25", "kanji": "動", "romaji": "dō", "english": "Move/Animal" },
+        { "date": "2025-11-26", "kanji": "都", "romaji": "to", "english": "Metropolis" }
+      ]
+    },
+    "funFacts": {
+      "enabled": true,
+      "facts": [
+        { "date": "2025-11-18", "fact": "Kiyomizu-dera's stage is built without a single nail using traditional joinery techniques." },
+        { "date": "2025-11-19", "fact": "Nara's 1,200+ deer are sacred messengers of gods and will bow when asking for crackers!" },
+        { "date": "2025-11-20", "fact": "Osaka is called 'Japan's Kitchen'—kuidaore means 'eat until you drop!'" },
+        { "date": "2025-11-21", "fact": "Kinkaku-ji is covered with real gold leaf—about 20kg of gold covers the pavilion." },
+        { "date": "2025-11-22", "fact": "Onsen etiquette: wash thoroughly before entering, no clothes or towels in the water!" },
+        { "date": "2025-11-23", "fact": "Owakudani's black eggs are boiled in volcanic sulfur waters—eating one adds 7 years to your life!" },
+        { "date": "2025-11-24", "fact": "teamLab Borderless has no map—artworks move freely through rooms creating endless surprises." },
+        { "date": "2025-11-25", "fact": "Ueno Zoo opened in 1882, Japan's first zoo. Giant pandas have been stars since 1972!" },
+        { "date": "2025-11-26", "fact": "Shibuya Crossing: up to 3,000 people cross at once during peak times—world's busiest intersection!" }
+      ]
+    },
+    "scavengerHunt": {
+      "enabled": true,
+      "hunts": [
+        {
+          "date": "2025-11-18",
+          "title": "Kyoto Arrival - Higashiyama",
+          "items": [
+            "Red torii gate",
+            "Stone lantern",
+            "Someone in kimono",
+            "Vending machine with hot drinks",
+            "Temple bell",
+            "Wooden prayer plaques (ema)",
+            "Kiyomizu stage view",
+            "Stone-paved lane"
+          ]
+        },
+        {
+          "date": "2025-11-19",
+          "title": "Fushimi Inari & Nara",
+          "items": [
+            "Fox statue at shrine",
+            "Torii gate tunnel",
+            "Deer bowing for crackers",
+            "Giant bronze Buddha",
+            "Deer with spots",
+            "Paper fortune (omikuji)",
+            "Someone feeding deer",
+            "Temple guardian statue"
+          ]
+        },
+        {
+          "date": "2025-11-20",
+          "title": "Osaka Day",
+          "items": [
+            "Glico Running Man sign",
+            "Takoyaki being made",
+            "Castle moat & stone walls",
+            "Neon billboard with kanji",
+            "Digital waterfall at teamLab",
+            "Someone taking selfie",
+            "Street food vendor",
+            "Dotonbori canal reflection"
+          ]
+        },
+        {
+          "date": "2025-11-21",
+          "title": "Kyoto Big Day",
+          "items": [
+            "Golden pavilion reflection",
+            "Wild monkey at park",
+            "Bamboo grove",
+            "Zen rock garden",
+            "Nightingale floor",
+            "Someone buying omamori (charm)",
+            "Temple roof detail",
+            "Mountain view from Arashiyama"
+          ]
+        },
+        {
+          "date": "2025-11-22",
+          "title": "Ryokan & Onsen",
+          "items": [
+            "Yukata (cotton robe)",
+            "Tatami mat floor",
+            "Low table with cushions",
+            "Japanese slippers at entrance",
+            "Tea set",
+            "Sliding paper doors",
+            "Garden view from room",
+            "Onsen noren curtain"
+          ]
+        },
+        {
+          "date": "2025-11-23",
+          "title": "Hakone Loop",
+          "items": [
+            "Cable car/ropeway",
+            "Steaming volcanic vents",
+            "Black egg",
+            "Mt. Fuji view (if clear!)",
+            "Lake Ashi",
+            "Torii gate in water",
+            "Someone buying eggs",
+            "Volcanic rock"
+          ]
+        },
+        {
+          "date": "2025-11-24",
+          "title": "Tokyo teamLab & Views",
+          "items": [
+            "Floating digital flowers",
+            "Mirrored infinity room",
+            "Tokyo Tower in distance",
+            "Koi fish in garden pond",
+            "Skyscraper from below",
+            "Someone making a wish",
+            "Traditional tea house",
+            "City skyline at sunset"
+          ]
+        },
+        {
+          "date": "2025-11-25",
+          "title": "Ueno Park Day",
+          "items": [
+            "Giant panda",
+            "Samurai armor display",
+            "Temple guardian (Niō)",
+            "Market banner/sign",
+            "Museum artifact",
+            "Someone eating street food",
+            "Park fountain or pond",
+            "Red stamp (goshuin)"
+          ]
+        },
+        {
+          "date": "2025-11-26",
+          "title": "Shinjuku & Shibuya",
+          "items": [
+            "Hachiko dog statue",
+            "Scramble crossing from above",
+            "Neon sign in katakana",
+            "Garden skyscraper view",
+            "Tiny alley restaurant",
+            "Someone crossing with umbrella",
+            "Department store display",
+            "Train passing overhead"
+          ]
+        }
+      ]
+    },
+    "kidQuest": {
+      "enabled": true,
+      "quests": [
+        {
+          "date": "2025-11-18",
+          "tasks": [
+            "Try a Japanese snack from a shop",
+            "Count 20 torii gates",
+            "Learn to say 'arigatō' (thank you)",
+            "Walk Kiyomizu's wooden stage"
+          ]
+        },
+        {
+          "date": "2025-11-19",
+          "tasks": [
+            "Feed crackers to a bowing deer",
+            "Find 3 different fox statues",
+            "Take photo with Great Buddha",
+            "Count deer with spots"
+          ]
+        },
+        {
+          "date": "2025-11-20",
+          "tasks": [
+            "Try takoyaki (octopus balls)",
+            "Find the Glico Running Man",
+            "Walk through digital waterfall",
+            "Spot 5 neon signs"
+          ]
+        },
+        {
+          "date": "2025-11-21",
+          "tasks": [
+            "See golden reflection in pond",
+            "Spot a wild monkey up close",
+            "Walk nightingale floor at Nijo",
+            "Touch bamboo in grove"
+          ]
+        },
+        {
+          "date": "2025-11-22",
+          "tasks": [
+            "Wear a yukata properly",
+            "Try onsen (family bath)",
+            "Eat kaiseki dinner with chopsticks",
+            "Sleep on futon on tatami"
+          ]
+        },
+        {
+          "date": "2025-11-23",
+          "tasks": [
+            "Ride ropeway over volcano",
+            "Try a black egg from Owakudani",
+            "Spot Mt. Fuji (if visible!)",
+            "Touch volcanic rock"
+          ]
+        },
+        {
+          "date": "2025-11-24",
+          "tasks": [
+            "Touch water in teamLab room",
+            "Find digital flowers moving",
+            "See Tokyo from observation deck",
+            "Feed koi fish in garden"
+          ]
+        },
+        {
+          "date": "2025-11-25",
+          "tasks": [
+            "Find giant pandas at zoo",
+            "See real samurai armor",
+            "Try snack at Ameyoko market",
+            "Get museum stamp in book"
+          ]
+        },
+        {
+          "date": "2025-11-26",
+          "tasks": [
+            "Cross Shibuya with crowd",
+            "Find Hachiko statue",
+            "Explore Japanese arcade/game center",
+            "Ride the Yamanote line"
+          ]
+        }
+      ]
+    },
+    "activitiesAndLearning": {
+      "mealsChecklist": true,
+      "map": {
+        "enabled": true,
+        "height": "320px",
+        "options": {
+          "zoom": 14,
+          "mode": "poi",
+          "poi": {
+            "radius": 800,
+            "categories": ["restaurant","convenience","bakery","temple","shrine"],
+            "useOverpass": true
+          }
+        },
+        "centersByDate": {
+          "2025-11-18": { "lat": 35.0116, "lng": 135.7681, "label": "Kyoto — near Inabado-cho (hotel)" },
+          "2025-11-22": { "lat": 35.2324, "lng": 139.1060, "label": "Hakone-Yumoto Station" },
+          "2025-11-23": { "lat": 35.2410, "lng": 139.1063, "label": "Hakone — Owakudani / Ropeway" },
+          "2025-11-24": { "lat": 35.6726, "lng": 139.7371, "label": "Tokyo — Akasaka (hotel)" }
+        },
+        "ui": {
+          "modeToggleId": "map-mode-toggle"
+        }
+      }
+    },
+    "travelChecklist": true,
+    "notesSection": true,
+    "dayRating": true,
+    "decorativeWatermark": {
+      "enabled": true,
+      "text": "旅"
+    },
+    "japaneseMicroseasons": {
+      "enabled": true,
+      "seasons": [
+        {
+          "startDate": "2025-11-18",
+          "endDate": "2025-11-21",
+          "kanji": "金盞香",
+          "romaji": "kinsenka saku",
+          "english": "Calendulas bloom"
+        },
+        {
+          "startDate": "2025-11-22",
+          "endDate": "2025-11-26",
+          "kanji": "虹蔵不見",
+          "romaji": "niji kakurete miezu",
+          "english": "Rainbows hide away"
+        }
+      ]
+    },
+    "japaneseLabels": true
+  }
+}

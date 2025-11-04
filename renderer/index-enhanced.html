@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Trip Planner - Enhanced Renderer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;400;700;900&display=swap" rel="stylesheet">
+  <!-- Leaflet for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <!-- Map helper -->
+  <script src="../maps/map.js"></script>
+  <style>
+    /* ========== Design Tokens ========== */
+    :root {
+      --bg: #ffffff;
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --chip: #eef2ff;
+      --soft: #f8fafc;
+      --light: #f3f4f6;
+    }
+
+    /* ========== Base ========== */
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== Header & Controls ========== */
+    header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--bg);
+    }
+    h1 { margin: 0; font-size: 20px; }
+    .subtitle { color: var(--muted); font-size: 13px; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 22px;
+      align-items: center;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+    .controls label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+    .controls input[type="file"] { font-size: 12px; }
+    .controls .file-group { display: flex; flex-direction: column; }
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn:hover { background: var(--soft); }
+    .link { color: #2563eb; cursor: pointer; text-decoration: underline; font-size: 13px; }
+    .hidden { display: none !important; }
+
+    /* ========== Cards & Layout ========== */
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+      margin: 14px 22px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      position: relative;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .card-title { margin: 0; font-size: 18px; }
+    .section-title {
+      margin: .25rem 0 .3rem;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #111827;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-top: 2px solid var(--line);
+      margin-top: 12px;
+    }
+    p { margin: 0 0 .5rem 0; line-height: 1.6; font-size: 13.6px; }
+    .grid > div { margin-bottom: 8px; }
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .badge {
+      background: var(--chip);
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .badge .v {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 0 6px;
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .footnote { margin-top: 6px; font-size: 12px; color: #374151; }
+    .notes {
+      margin-top: 8px;
+      height: 52px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 6px;
+      color: #6b7280;
+      font-size: 12.6px;
+    }
+
+    /* ========== Daily Planner Style ========== */
+    body.daily-planner {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    
+    body.daily-planner .card {
+      page-break-after: always;
+      border: 1px solid var(--line);
+      background: var(--light);
+      padding: 10px 12px 14px;
+    }
+
+    /* Japanese Elements */
+    .jp-mini {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: rgba(0,0,0,.35);
+      font-size: 14px;
+      margin-left: 6px;
+    }
+
+    .watermark {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-family: 'Noto Sans JP', sans-serif;
+      color: rgba(0,0,0,.08);
+      font-size: 64px;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Module: Word Bank */
+    .wordbank {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .wordbank .wb {
+      border: 1px solid var(--line);
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    /* Module: Phrase/Kanji/Fun Fact */
+    .module-box {
+      border: 1px solid var(--line);
+      padding: 9px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .module-box.small {
+      min-height: 60px;
+    }
+    .module-box h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .module-box .phrase {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 600;
+    }
+    .module-box .romaji {
+      margin-left: 8px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .module-box .meaning {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* Module: Scavenger Hunt */
+    .scavenger-hunt {
+      border: 1px solid var(--line);
+      padding: 9px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .scavenger-hunt h4 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .scav {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      columns: 2;
+      column-gap: 14px;
+    }
+    .scav li {
+      margin: 5px 0;
+      break-inside: avoid;
+      font-size: 11px;
+    }
+    .scav li .box {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid var(--ink);
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+
+    /* Module: Kid Quest */
+    .kid-quest {
+      border: 1px solid var(--line);
+      padding: 9px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .kid-quest h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .kid-quest .checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+    }
+    .kid-quest .checks label {
+      font-size: 11px;
+    }
+
+    /* Module: Checklists */
+    .checklist {
+      border: 1px solid var(--line);
+      padding: 9px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .checklist h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+    }
+    .checks label {
+      font-size: 11px;
+    }
+    .checks .box {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid var(--ink);
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+    .checks.meals .line {
+      height: 12px;
+      border-bottom: 1px solid var(--line);
+      flex-basis: 100%;
+      margin-bottom: 2px;
+    }
+
+    /* Module: Notes Section */
+    .notes-section {
+      border: 1px solid var(--line);
+      padding: 9px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+      min-height: 80px;
+    }
+    .notes-section h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .ruled {
+      width: 100%;
+      height: 70px;
+      display: block;
+    }
+    .ruled line {
+      stroke: #9ca3af;
+      stroke-width: 1.25;
+      shape-rendering: crispEdges;
+      vector-effect: non-scaling-stroke;
+    }
+
+    /* Module: Day Rating */
+    .day-rating {
+      margin-top: 10px;
+      padding: 8px;
+      text-align: right;
+    }
+    .day-rating .rate {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+    }
+    .day-rating .bubble {
+      width: 13px;
+      height: 13px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* SVG Icons */
+    .accent {
+      width: 80px;
+      height: 18px;
+      color: #6b7280;
+      margin-right: 4px;
+    }
+
+    /* Microseason */
+    .microseason {
+      font-size: 11px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    /* Two-Page Spread Layout */
+    .two-page-spread {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .left-page, .right-page {
+      flex: 1;
+      min-width: 0; /* Allow flex items to shrink */
+    }
+    
+    /* Three Column Layout for Right Page (phrase/kanji/fact without travel) */
+    body.daily-planner .phrase-fact-right {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    
+    @media (max-width: 900px) {
+      .two-page-spread {
+        flex-direction: column;
+      }
+      
+      body.daily-planner .phrase-fact-right {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      @page { 
+        size: Letter portrait; 
+        margin: 0.5in;
+      }
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: white;
+      }
+      
+      /* Hide controls */
+      header, .controls, #reloadWrap {
+        display: none !important;
+      }
+      
+      /* Two-page spread layout for print - stack vertically for separate pages */
+      .two-page-spread {
+        display: block;
+        margin: 0 !important;
+      }
+      
+      /* Individual pages - each gets its own Letter page */
+      .left-page, .right-page {
+        page-break-after: always;
+        page-break-inside: avoid;
+        break-after: page;
+        break-inside: avoid;
+        margin: 0 !important;
+        border: 1px solid #e5e7eb !important;
+        padding: 12px !important;
+        background: white !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      
+      /* Ensure 3-column layout on right page */
+      body.daily-planner .phrase-fact-right {
+        grid-template-columns: repeat(3, 1fr) !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Compact spacing for print - preserve card styling */
+      .module-box, .scavenger-hunt, .kid-quest, .checklist, .notes-section {
+        margin-bottom: 8px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1px solid #e5e7eb !important;
+        background: #f9fafb !important;
+        border-radius: 6px !important;
+      }
+      
+      /* Ensure text is readable */
+      .ruled line {
+        stroke: #6b7280 !important;
+        stroke-width: 1.4px !important;
+      }
+      
+      /* Fix font sizes for print */
+      p {
+        font-size: 9pt !important;
+        line-height: 1.3 !important;
+      }
+      
+      .section-title {
+        font-size: 10pt !important;
+        margin-top: 6px !important;
+        padding-top: 3px !important;
+      }
+      
+      h4 {
+        font-size: 9pt !important;
+      }
+      
+      h3.card-title {
+        font-size: 11pt !important;
+      }
+      
+      /* Ensure proper spacing */
+      .grid > div {
+        margin-bottom: 4px !important;
+      }
+      
+      /* Compact module boxes for print */
+      .module-box {
+        padding: 6px !important;
+      }
+      
+      .scavenger-hunt, .kid-quest, .checklist, .notes-section {
+        padding: 6px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Trip Planner — Enhanced Renderer</h1>
+      <div class="subtitle">Load your trip JSON and optional config to render the guide</div>
+    </div>
+  </header>
+
+  <div id="controls" class="controls">
+    <div class="file-group">
+      <label for="dataFile">Trip JSON (required)</label>
+      <input id="dataFile" type="file" accept=".json,application/json" />
+    </div>
+    <div class="file-group">
+      <label for="configFile">Render Config JSON (optional)</label>
+      <input id="configFile" type="file" accept=".json,application/json" />
+    </div>
+    <button id="loadBtn" class="btn">Render Guide</button>
+    <button id="exportBtn" class="btn">Export Standalone HTML</button>
+  </div>
+
+  <div id="reloadWrap" class="controls hidden">
+    <span id="reloadLink" class="link" tabindex="0" role="button" aria-label="Reload trip JSON">Load different files</span>
+    <button id="exportBtn2" class="btn">Export Standalone HTML</button>
+  </div>
+
+  <main id="renderTarget"></main>
+
+  <script>
+  // ========== State/Helpers ==========
+  const state = { 
+    data: null,
+    config: null
+  };
+
+  // Attempt to auto-load `renderer/japan-planner-config.json` so users don't have to upload a config file
+  // This will be overridden if the user selects a config file via the UI.
+  async function loadRendererConfig() {
+    try {
+      const resp = await fetch('japan-planner-config.json');
+      if (!resp.ok) return;
+      state.config = await resp.json();
+    } catch (e) {
+      // ignore, config remains null
+      state.config = state.config || null;
+    }
+  }
+
+  // Start loading config in background
+  loadRendererConfig();
+  
+  const $ = (sel, el=document) => el.querySelector(sel);
+  function el(tag, className, text) {
+    const n = document.createElement(tag);
+    if (className) n.className = className;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  const escapeHtml = (s) => String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+  async function readAsJson(file) {
+    const text = await file.text();
+    return JSON.parse(text);
+  }
+
+  function parseRangeFromText(txt) {
+    const m = String(txt || '').match(/^(\d{4}-\d{2}-\d{2})\s+to\s+(\d{4}-\d{2}-\d{2})$/);
+    return m ? { start: m[1], end: m[2] } : null;
+  }
+  
+  function parseDateISO(d) {
+    try {
+      const p = String(d || '').split('-').map(Number);
+      if (p.length !== 3 || !p[0] || !p[1] || !p[2]) return String(d || '');
+      const dt = new Date(Date.UTC(p[0], p[1]-1, p[2]));
+      return new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }).format(dt);
+    } catch { return String(d || ''); }
+  }
+
+  // Return { lat, lng } from an activity's logistics, supporting multiple shapes
+  function getCoordsFromLogistics(log) {
+    if (!log) return null;
+    // direct numeric fields
+    if (typeof log.latitude === 'number' && typeof log.longitude === 'number') return { lat: log.latitude, lng: log.longitude };
+    // location object support: { latitude, longitude } or { lat, lng }
+    if (log.location) {
+      const loc = log.location;
+      if (typeof loc.latitude === 'number' && typeof loc.longitude === 'number') return { lat: loc.latitude, lng: loc.longitude };
+      if (typeof loc.lat === 'number' && typeof loc.lng === 'number') return { lat: loc.lat, lng: loc.lng };
+    }
+    // older field names
+    if (typeof log.lat === 'number' && typeof log.lng === 'number') return { lat: log.lat, lng: log.lng };
+    return null;
+  }
+  
+  function fmtHours(h) { return (Number(h) || 0).toFixed(1) + 'h'; }
+
+  function buildActivityLookup(acts) {
+    const m = new Map();
+    for (const a of acts || []) if (a && a.authoritative_name) m.set(a.authoritative_name, a);
+    return m;
+  }
+
+  function aggregateKpisForDay(day, lookup, kpiMap) {
+    const allTags = new Set();
+    for (const dp of day.day_parts || []) {
+      if (!dp.activity_authoritative_name) continue;
+      const a = lookup.get(dp.activity_authoritative_name);
+      for (const t of a?.experiences || []) allTags.add(t);
+    }
+    const counts = new Map();
+    for (const [k, tags] of Object.entries(kpiMap || {})) {
+      const n = [...new Set(tags)].reduce((acc, t) => acc + (allTags.has(t) ? 1 : 0), 0);
+      if (n) counts.set(k, n);
+    }
+    return counts;
+  }
+
+  function aggregateKpisForDays(days, lookup, kpiMap) {
+    const totals = new Map();
+    for (const d of days || []) {
+      for (const [k, v] of aggregateKpisForDay(d, lookup, kpiMap).entries()) {
+        totals.set(k, (totals.get(k) || 0) + v);
+      }
+    }
+    return totals;
+  }
+
+  function aggregateTimeForDay(day, lookup) {
+    let activityH = 0, transitH = 0;
+    for (const dp of day.day_parts || []) {
+      if (dp.activity_authoritative_name) {
+        const a = lookup.get(dp.activity_authoritative_name);
+        if (typeof a?.logistics?.activity_hours === 'number') activityH += a.logistics.activity_hours;
+      }
+      if (typeof dp?.logistics?.transit_hours === 'number') transitH += dp.logistics.transit_hours;
+    }
+    return { activityH, transitH };
+  }
+  
+  function aggregateTimeForDays(days, lookup) {
+    return (days || []).reduce((acc, d) => {
+      const t = aggregateTimeForDay(d, lookup);
+      acc.activityH += t.activityH; acc.transitH += t.transitH; return acc;
+    }, { activityH: 0, transitH: 0 });
+  }
+
+  function getRange(obj) {
+    if (obj && obj.start_date && obj.end_date) return { start: obj.start_date, end: obj.end_date };
+    if (obj && obj.date_range) return parseRangeFromText(obj.date_range);
+    return null;
+  }
+  
+  function dayInRange(day, range) {
+    return range && day.date >= range.start && day.date <= range.end;
+  }
+
+  // ========== SVG Icons ==========
+  const SVG_ICONS = {
+    transportation: `<svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>`,
+    food: `<svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8' stroke='currentColor'/><line x1='24' y1='3' x2='24' y2='8' stroke='currentColor'/><line x1='28' y1='3' x2='28' y2='8' stroke='currentColor'/></svg>`,
+    morning: `<svg class='accent' viewBox='0 0 20 20'><circle cx='10' cy='10' r='4' fill='currentColor'/><line x1='10' y1='2' x2='10' y2='4' stroke='currentColor' stroke-width='1.5'/><line x1='10' y1='16' x2='10' y2='18' stroke='currentColor' stroke-width='1.5'/><line x1='2' y1='10' x2='4' y2='10' stroke='currentColor' stroke-width='1.5'/><line x1='16' y1='10' x2='18' y2='10' stroke='currentColor' stroke-width='1.5'/><line x1='4.5' y1='4.5' x2='6' y2='6' stroke='currentColor' stroke-width='1.5'/><line x1='14' y1='14' x2='15.5' y2='15.5' stroke='currentColor' stroke-width='1.5'/><line x1='15.5' y1='4.5' x2='14' y2='6' stroke='currentColor' stroke-width='1.5'/><line x1='6' y1='14' x2='4.5' y2='15.5' stroke='currentColor' stroke-width='1.5'/></svg>`,
+    afternoon: `<svg class='accent' viewBox='0 0 20 20'><circle cx='10' cy='8' r='3' fill='currentColor'/><path d='M10 11 Q7 13, 7 16 L13 16 Q13 13, 10 11Z' fill='currentColor' opacity='0.5'/></svg>`,
+    evening: `<svg class='accent' viewBox='0 0 20 20'><path d='M10 2 A6 6 0 0 1 10 14 A8 8 0 0 0 10 2' fill='currentColor'/><circle cx='12' cy='6' r='0.8' fill='currentColor' opacity='0.3'/><circle cx='14' cy='9' r='0.6' fill='currentColor' opacity='0.3'/></svg>`,
+    temple: `<svg class='accent' viewBox='0 0 20 20'><path d='M3 18h14M4 18V12h12v6M2 12h16M3 12V8h14v4M1 8h18M6 8l4-6 4 6' stroke='currentColor' fill='none' stroke-width='1.2'/></svg>`,
+    quest: `<svg class='accent' viewBox='0 0 20 20'><path d='M10 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linejoin='round'/></svg>`,
+    kanji: `<svg class='accent' viewBox='0 0 20 20'><rect x='2' y='2' width='16' height='16' rx='1' fill='none' stroke='currentColor' stroke-width='1.5'/><path d='M6 7h8M10 7v8M6 11h8' stroke='currentColor' stroke-width='2'/></svg>`,
+    phrase: `<svg class='accent' viewBox='0 0 20 20'><path d='M4 6c0-1 1-2 2-2h8c1 0 2 1 2 2v8c0 1-1 2-2 2H6c-1 0-2-1-2-2z' fill='none' stroke='currentColor' stroke-width='1.5'/><path d='M7 8h6M7 11h6M7 14h4' stroke='currentColor' stroke-width='1.5'/></svg>`,
+    fact: `<svg class='accent' viewBox='0 0 20 20'><circle cx='10' cy='10' r='8' fill='none' stroke='currentColor' stroke-width='1.5'/><circle cx='10' cy='6' r='1' fill='currentColor'/><path d='M10 9v6' stroke='currentColor' stroke-width='2'/></svg>`,
+    wordbank: `<svg class='accent' viewBox='0 0 20 20'><rect x='3' y='4' width='14' height='12' rx='1' fill='none' stroke='currentColor' stroke-width='1.5'/><path d='M6 8h8M6 11h8M6 14h5' stroke='currentColor' stroke-width='1.2'/></svg>`,
+    notes: `<svg class='accent' viewBox='0 0 20 20'><path d='M4 2h12v16H4z' fill='none' stroke='currentColor' stroke-width='1.5'/><path d='M7 6h6M7 9h6M7 12h6M7 15h4' stroke='currentColor' stroke-width='1' opacity='0.6'/></svg>`
+  };
+
+  function getIcon(name) {
+    return SVG_ICONS[name] || '';
+  }
+
+  // ========== Word Bank State ==========
+  // Track which words have been used across days to avoid repetition
+  const usedWordIndices = new Set();
+  let allWords = [];
+  
+  function selectWordsForDay(words, count = 5) {
+    // Store full word list on first call
+    if (allWords.length === 0) {
+      allWords = words;
+    }
+    
+    // If we've used all words, reset the pool
+    if (usedWordIndices.size >= allWords.length) {
+      usedWordIndices.clear();
+    }
+    
+    // Get available word indices
+    const availableIndices = [];
+    for (let i = 0; i < allWords.length; i++) {
+      if (!usedWordIndices.has(i)) {
+        availableIndices.push(i);
+      }
+    }
+    
+    // Shuffle and select count words
+    const shuffled = availableIndices.sort(() => Math.random() - 0.5);
+    const selectedIndices = shuffled.slice(0, Math.min(count, shuffled.length));
+    
+    // Mark as used
+    selectedIndices.forEach(idx => usedWordIndices.add(idx));
+    
+    // Return selected words
+    return selectedIndices.map(idx => allWords[idx]);
+  }
+
+  // ========== Module Renderers ==========
+  
+  function renderWordBank(config, container) {
+    if (!config?.modules?.wordBank?.enabled) return;
+    const words = config.modules.wordBank.words || [];
+    if (!words.length) return;
+    
+    // Select a subset of words for this day (5 words by default)
+    const selectedWords = selectWordsForDay(words, 5);
+    if (!selectedWords.length) return;
+    
+    const box = el('div', 'module-box');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('wordbank')}Word Bank${config.modules.japaneseLabels ? '<span class="jp-mini">単語 (tango)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const wordbank = el('div', 'wordbank');
+    for (const w of selectedWords) {
+      const wb = el('span', 'wb');
+      wb.textContent = `${w.kanji} (${w.romaji}) — ${w.english}`;
+      wordbank.appendChild(wb);
+    }
+    box.appendChild(wordbank);
+    container.appendChild(box);
+  }
+
+  function renderPhraseOfDay(date, config, container) {
+    if (!config?.modules?.phraseOfDay?.enabled) return;
+    const phrases = config.modules.phraseOfDay.phrases || [];
+    const phrase = phrases.find(p => p.date === date);
+    if (!phrase) return;
+    
+    const box = el('div', 'module-box small');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('phrase')}Phrase of the Day`;
+    box.appendChild(h4);
+    
+    const p = el('p');
+    p.innerHTML = `<span class="phrase">${escapeHtml(phrase.phrase)}</span><span class="romaji">${escapeHtml(phrase.romaji)}</span>`;
+    box.appendChild(p);
+    
+    const meaning = el('div', 'meaning', phrase.english);
+    box.appendChild(meaning);
+    
+    container.appendChild(box);
+  }
+
+  function renderKanjiOfDay(date, config, container) {
+    if (!config?.modules?.kanjiOfDay?.enabled) return;
+    const kanjis = config.modules.kanjiOfDay.kanjis || [];
+    const kanji = kanjis.find(k => k.date === date);
+    if (!kanji) return;
+    
+    const box = el('div', 'module-box small');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('kanji')}Kanji of the Day`;
+    box.appendChild(h4);
+    
+    const p = el('p');
+    p.innerHTML = `<span class="phrase">${escapeHtml(kanji.kanji)}</span><span class="romaji">${escapeHtml(kanji.romaji)}</span>`;
+    box.appendChild(p);
+    
+    const meaning = el('div', 'meaning', kanji.english);
+    box.appendChild(meaning);
+    
+    container.appendChild(box);
+  }
+
+  function renderFunFact(date, config, container) {
+    if (!config?.modules?.funFacts?.enabled) return;
+    const facts = config.modules.funFacts.facts || [];
+    const fact = facts.find(f => f.date === date);
+    if (!fact) return;
+    
+    const box = el('div', 'module-box small');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('fact')}Fun Fact about Japan`;
+    box.appendChild(h4);
+    
+    const p = el('p', '', fact.fact);
+    box.appendChild(p);
+    
+    container.appendChild(box);
+  }
+
+  function renderScavengerHunt(date, config, container) {
+    if (!config?.modules?.scavengerHunt?.enabled) return;
+    const hunts = config.modules.scavengerHunt.hunts || [];
+    const hunt = hunts.find(h => h.date === date);
+    if (!hunt) return;
+    
+    const box = el('div', 'scavenger-hunt');
+    const h4 = el('h4');
+    const subtitle = hunt.title || 'I Spy';
+    const title = `Scavenger Hunt - ${subtitle}`;
+    h4.innerHTML = `${getIcon('temple')}${title}${config.modules.japaneseLabels ? '<span class="jp-mini">たんけん (tanken)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const ul = el('ul', 'scav');
+    for (const item of hunt.items || []) {
+      const li = el('li');
+      li.innerHTML = `<span class='box'></span> ${escapeHtml(item)}`;
+      ul.appendChild(li);
+    }
+    box.appendChild(ul);
+    
+    container.appendChild(box);
+  }
+
+  function renderKidQuest(date, config, container) {
+    if (!config?.modules?.kidQuest?.enabled) return;
+    const quests = config.modules.kidQuest.quests || [];
+    const quest = quests.find(q => q.date === date);
+    if (!quest) return;
+    
+    const box = el('div', 'kid-quest');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('quest')}Kid Daily Quest${config.modules.japaneseLabels ? '<span class="jp-mini">こどものクエスト (kodomo no kuesuto)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const checks = el('div', 'checks');
+    for (const task of quest.tasks || []) {
+      const label = el('label');
+      label.innerHTML = `<span class='box'></span> ${escapeHtml(task)}`;
+      checks.appendChild(label);
+    }
+    box.appendChild(checks);
+    
+    container.appendChild(box);
+  }
+
+  function renderMealsChecklist(config, container) {
+    if (!config?.modules?.mealsChecklist) return;
+    
+    const box = el('div', 'checklist');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('food')}Meals${config.modules.japaneseLabels ? '<span class="jp-mini">食事 (shokuji)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const checks = el('div', 'checks meals');
+    const meals = ['Breakfast', 'Lunch', 'Dinner'];
+    for (const meal of meals) {
+      const label = el('label');
+      label.innerHTML = `<span class='box'></span> ${meal}`;
+      checks.appendChild(label);
+      checks.appendChild(el('div', 'line'));
+    }
+    box.appendChild(checks);
+    
+    container.appendChild(box);
+  }
+
+  function renderTravelChecklist(config, container) {
+    if (!config?.modules?.travelChecklist) return;
+    
+    const box = el('div', 'checklist');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('transportation')}Travel${config.modules.japaneseLabels ? '<span class="jp-mini">交通 (kōtsū)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const checks = el('div', 'checks');
+    const modes = ['Taxi', 'Train', 'Walking', 'Subway', 'Bus'];
+    for (const mode of modes) {
+      const label = el('label');
+      label.innerHTML = `<span class='box'></span> ${mode}`;
+      checks.appendChild(label);
+    }
+    box.appendChild(checks);
+    
+    container.appendChild(box);
+  }
+
+  function renderNotesSection(config, container) {
+    if (!config?.modules?.notesSection) return;
+    
+    const box = el('div', 'notes-section');
+    const h4 = el('h4');
+    h4.innerHTML = `${getIcon('afternoon')}Notes${config.modules.japaneseLabels ? '<span class="jp-mini">メモ (memo)</span>' : ''}`;
+    box.appendChild(h4);
+    
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'ruled');
+    svg.setAttribute('viewBox', '0 0 800 70');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '70px');
+    
+    for (let i = 1; i <= 5; i++) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', '0');
+      line.setAttribute('y1', (i * 12).toString());
+      line.setAttribute('x2', '800');
+      line.setAttribute('y2', (i * 12).toString());
+      svg.appendChild(line);
+    }
+    
+    box.appendChild(svg);
+    container.appendChild(box);
+  }
+
+  function renderDayRating(config, container) {
+    if (!config?.modules?.dayRating) return;
+    
+    const rating = el('div', 'day-rating');
+    const rate = el('div', 'rate');
+    rate.innerHTML = '<span>Rate the day:</span>';
+    for (let i = 0; i < 4; i++) {
+      rate.appendChild(el('span', 'bubble'));
+    }
+    rating.appendChild(rate);
+    
+    container.appendChild(rating);
+  }
+
+  function addWatermark(container, config) {
+    if (!config?.modules?.decorativeWatermark?.enabled) return;
+    const text = config.modules.decorativeWatermark.text || '';
+    if (!text) return;
+    
+    const watermark = el('div', 'watermark', text);
+    container.appendChild(watermark);
+  }
+
+  function getMicroseason(date, config) {
+    if (!config?.modules?.japaneseMicroseasons?.enabled) return null;
+    const seasons = config.modules.japaneseMicroseasons.seasons || [];
+    return seasons.find(s => date >= s.startDate && date <= s.endDate);
+  }
+
+  function applyStyle(config) {
+    const style = config?.style || 'clean';
+    if (style === 'daily-planner') {
+      document.body.classList.add('daily-planner');
+    } else {
+      document.body.classList.remove('daily-planner');
+    }
+  }
+
+  // ========== UI Builders ==========
+  function renderBadgesRow(map) {
+    const row = el('div', 'badges');
+    for (const [k, v] of Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+      const b = el('span', 'badge');
+      const kSpan = el('span', 'k', k);
+      const vSpan = el('span', 'v', String(v));
+      b.append(kSpan, vSpan);
+      row.appendChild(b);
+    }
+    return row;
+  }
+
+  function makeCard(titleText) {
+    const card = el('section', 'card');
+    const header = el('div', 'card-header');
+    const title = el('h3', 'card-title', titleText);
+    header.appendChild(title);
+    card.appendChild(header);
+    const grid = el('div', 'grid');
+    card.appendChild(grid);
+    return { card, grid };
+  }
+
+  function addOverviewSection(grid, text) {
+    if (!text) return;
+    const sec = el('div');
+    const h4 = el('div', 'section-title', 'Overview');
+    const block = el('div');
+    block.innerHTML = `<p>${escapeHtml(text)}</p>`;
+    sec.append(h4, block);
+    grid.appendChild(sec);
+  }
+
+  function addFootnote(card, totals) {
+    const foot = el('div', 'footnote', `${fmtHours(totals.activityH)} activities · ${fmtHours(totals.transitH)} transit`);
+    card.appendChild(foot);
+  }
+
+  // ========== Renderers ==========
+  function renderTripCards(root, data, lookup, config) {
+    const trips = Array.isArray(data.trip_itinerary) ? data.trip_itinerary : [];
+    const days = (data.day_collection || []).slice().sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+    for (const t of trips) {
+      const range = getRange(t);
+      const rangeDays = range ? days.filter(d => dayInRange(d, range)) : days;
+      const kpis = aggregateKpisForDays(rangeDays, lookup, data.kpi_mappings || {});
+      const totals = aggregateTimeForDays(rangeDays, lookup);
+
+      const title = `${t.title || 'Trip'} — (${t.date_range || (range ? `${range.start} to ${range.end}` : '')})`;
+      const { card, grid } = makeCard(title);
+      addOverviewSection(grid, t.overview_text);
+      grid.appendChild(renderBadgesRow(kpis));
+      addFootnote(card, totals);
+      
+      // Add watermark if configured
+      addWatermark(card, config);
+      
+      root.appendChild(card);
+    }
+  }
+
+  function renderSegmentCard(root, seg, segDays, lookup, data, config) {
+    const kpis = aggregateKpisForDays(segDays, lookup, data.kpi_mappings || {});
+    const totals = aggregateTimeForDays(segDays, lookup);
+    const r = getRange(seg);
+    const rangeText = seg.date_range || (r ? `${r.start} to ${r.end}` : '');
+    const title = `${seg.title || 'Segment'} — (${rangeText})`;
+
+    const { card, grid } = makeCard(title);
+    addOverviewSection(grid, seg.overview_text);
+    grid.appendChild(renderBadgesRow(kpis));
+    addFootnote(card, totals);
+    
+    // Add watermark if configured
+    addWatermark(card, config);
+    
+    root.appendChild(card);
+  }
+
+  function renderDay(root, day, lookup, kpiMap, config, hotelLookup) {
+    const parts = (day.day_parts || []).map(dp => dp.activity_authoritative_name).filter(Boolean);
+    const title = `${parseDateISO(day.date)} — ${parts.join(' · ') || 'Open / Buffer'}`;
+
+    // Create two-page spread container
+    const spreadContainer = el('div', 'two-page-spread');
+    
+    // ===== LEFT PAGE: Itinerary =====
+    const leftPage = el('section', 'card left-page');
+    const leftHeader = el('div', 'card-header');
+    const leftTitle = el('h3', 'card-title', title);
+    leftHeader.appendChild(leftTitle);
+    leftPage.appendChild(leftHeader);
+    // If this day references a hotel, render a compact hotel card
+    try {
+      const hotelRef = day.hotel_authoritative_name;
+      const hotel = hotelLookup && hotelRef ? hotelLookup.get(hotelRef) : null;
+      if (hotel) {
+        const hb = el('div', 'module-box');
+        const h4 = el('h4', null, 'Hotel / Stay');
+        const hotelInner = el('div');
+        const nameEl = el('div', null, hotel.name || hotel.authoritative_name);
+        nameEl.style.fontWeight = '700';
+        const addrEl = el('div', 'jp-mini', hotel.address || '');
+        const times = [];
+        if (hotel.check_in) times.push('Check-in: ' + hotel.check_in);
+        if (hotel.check_out) times.push('Check-out: ' + hotel.check_out);
+        const timesEl = el('div', null, times.join(' · '));
+        const resEl = hotel.reservation_number ? el('div', null, 'Reservation: ' + hotel.reservation_number) : null;
+        hotelInner.appendChild(nameEl);
+        hotelInner.appendChild(addrEl);
+        hotelInner.appendChild(timesEl);
+        if (resEl) hotelInner.appendChild(resEl);
+        hb.appendChild(h4);
+        hb.appendChild(hotelInner);
+        leftPage.appendChild(hb);
+      }
+    } catch (e) { /* non-fatal */ }
+    
+    // Add microseason if configured
+    const microseason = getMicroseason(day.date, config);
+    if (microseason) {
+      const ms = el('div', 'microseason');
+      ms.textContent = `${microseason.kanji} / ${microseason.romaji} — ${microseason.english}`;
+      leftPage.appendChild(ms);
+    }
+    
+    const leftGrid = el('div', 'grid');
+    leftPage.appendChild(leftGrid);
+    
+    addOverviewSection(leftGrid, day.overview_text);
+
+    const kpis = aggregateKpisForDay(day, lookup, kpiMap || {});
+    leftGrid.appendChild(renderBadgesRow(kpis));
+
+    // Render day parts with Japanese labels if configured
+    for (const dp of day.day_parts || []) {
+      const sec = el('div');
+      const h4 = el('div', 'section-title');
+      
+      // Add icon and Japanese label
+      let icon = '';
+      let jpLabel = '';
+      if (config?.modules?.japaneseLabels) {
+        if (dp.part === 'Morning') { icon = getIcon('morning'); jpLabel = '朝 (asa)'; }
+        else if (dp.part === 'Afternoon') { icon = getIcon('afternoon'); jpLabel = '昼 (hiru)'; }
+        else if (dp.part === 'Evening') { icon = getIcon('evening'); jpLabel = '夜 (yoru)'; }
+      }
+      
+      h4.innerHTML = `${icon}${dp.part} (${dp.hours})${jpLabel ? `<span class="jp-mini">${jpLabel}</span>` : ''}`;
+      
+      const block = el('div');
+
+      if (dp.activity_authoritative_name) {
+        const act = lookup.get(dp.activity_authoritative_name);
+        if (act) {
+          block.innerHTML += `<p><strong>${escapeHtml(act.descriptive_name)}</strong>: ${escapeHtml(act.descriptive_text)}</p>`;
+          const pieces = [];
+          if (dp.logistics?.transit_kpis?.length) pieces.push(escapeHtml(dp.logistics.transit_kpis.join(' · ')));
+          if (typeof act.logistics?.activity_hours === 'number') pieces.push(`${act.logistics.activity_hours.toFixed(1)}h on site`);
+          if (typeof dp.logistics?.transit_hours === 'number') pieces.push(`${dp.logistics.transit_hours.toFixed(1)}h transit`);
+          if (pieces.length) block.innerHTML += `<p class="how"><em>${pieces.join(' · ')}</em></p>`;
+        } else {
+          block.innerHTML = `<p><em>Activity not found in catalog: ${escapeHtml(dp.activity_authoritative_name)}</em></p>`;
+        }
+      } else {
+        block.innerHTML = `<p><strong>Open / Buffer</strong></p>`;
+        const pieces = [];
+        if (dp.logistics?.transit_kpis?.length) pieces.push(escapeHtml(dp.logistics.transit_kpis.join(' · ')));
+        if (typeof dp.logistics?.transit_hours === 'number') pieces.push(`${dp.logistics.transit_hours.toFixed(1)}h transit`);
+        if (pieces.length) block.innerHTML += `<p class="how"><em>${pieces.join(' · ')}</em></p>`;
+      }
+
+      sec.append(h4, block);
+      leftGrid.appendChild(sec);
+    }
+
+    addFootnote(leftPage, aggregateTimeForDay(day, lookup));
+    
+    // Add meals and travel checklists to left page
+    if (config) {
+      renderMealsChecklist(config, leftPage);
+      renderTravelChecklist(config, leftPage);
+      renderNotesSection(config, leftPage);
+      renderDayRating(config, leftPage);
+    } else {
+      const notes = el('div', 'notes', 'Notes / Food: ');
+      leftPage.appendChild(notes);
+    }
+    
+    // Add watermark to left page
+    addWatermark(leftPage, config);
+    
+    // ===== RIGHT PAGE: Educational/Activity Modules =====
+    const rightPage = el('section', 'card right-page');
+    const rightHeader = el('div', 'card-header');
+    const rightTitle = el('h3', 'card-title', `${parseDateISO(day.date)} — Activities & Learning`);
+    rightHeader.appendChild(rightTitle);
+    rightPage.appendChild(rightHeader);
+    
+    // Add optional modules to right page if config is provided
+    if (config) {
+      // Create container for phrase/kanji/fact (3-column layout on right page)
+      const hasPhrase = config.modules?.phraseOfDay?.enabled && config.modules.phraseOfDay.phrases?.some(p => p.date === day.date);
+      const hasKanji = config.modules?.kanjiOfDay?.enabled && config.modules.kanjiOfDay.kanjis?.some(k => k.date === day.date);
+      const hasFact = config.modules?.funFacts?.enabled && config.modules.funFacts.facts?.some(f => f.date === day.date);
+      
+      if (hasPhrase || hasKanji || hasFact) {
+        const phraseFactContainer = el('div', 'phrase-fact-right');
+        if (hasPhrase) renderPhraseOfDay(day.date, config, phraseFactContainer);
+        if (hasKanji) renderKanjiOfDay(day.date, config, phraseFactContainer);
+        if (hasFact) renderFunFact(day.date, config, phraseFactContainer);
+        rightPage.appendChild(phraseFactContainer);
+      }
+      
+      // Add other modules
+      renderWordBank(config, rightPage);
+      renderScavengerHunt(day.date, config, rightPage);
+      renderKidQuest(day.date, config, rightPage);
+      
+      // Optionally render a map in the Activities & Learning panel when configured
+      try {
+        const aml = config?.modules?.activitiesAndLearning;
+        if (aml && aml.map && aml.map.enabled) {
+          const mapConfig = aml.map || {};
+          const mapId = 'map-day-' + String(day.date).replace(/[^0-9a-zA-Z_-]/g, '');
+          const mapWrap = el('div');
+          mapWrap.style.marginTop = '10px';
+          const mapDiv = el('div');
+          mapDiv.id = mapId;
+          mapDiv.style.width = '100%';
+          mapDiv.style.height = (mapConfig.height || '280px');
+          mapDiv.style.borderRadius = '8px';
+          mapDiv.style.overflow = 'hidden';
+          mapWrap.appendChild(mapDiv);
+          rightPage.appendChild(mapWrap);
+
+          // Determine center: prefer centersByDate, then global center, else try first activity coords
+          let center = null;
+          if (mapConfig.centersByDate && mapConfig.centersByDate[day.date]) center = mapConfig.centersByDate[day.date];
+          else if (mapConfig.center) center = mapConfig.center;
+            else {
+            const firstAct = (day.day_parts && day.day_parts[0] && day.day_parts[0].activity_authoritative_name) || null;
+            if (firstAct) {
+              const act = lookup.get(firstAct);
+              const c = getCoordsFromLogistics(act?.logistics);
+              if (c) {
+                center = { lat: c.lat, lng: c.lng, label: act?.descriptive_name || firstAct };
+              }
+            }
+          }
+
+          if (center && typeof initTripMap === 'function') {
+            // Build explicit items: include the center (hotel) and any activity coords available for this day
+            const explicitItems = [];
+            // Add hotel/center as an explicit POI so it always appears
+            explicitItems.push({ lat: center.lat, lng: center.lng, label: center.label || 'Hotel', category: 'hotel' });
+            // Add activity markers from day activities if they have logistics coords
+            try {
+              for (const dp of day.day_parts || []) {
+                const name = dp.activity_authoritative_name;
+                if (!name) continue;
+                const act = lookup.get(name);
+                if (act) {
+                  const c = getCoordsFromLogistics(act.logistics);
+                  if (c) explicitItems.push({ lat: c.lat, lng: c.lng, label: act.descriptive_name || name, category: 'activity' });
+                }
+              }
+            } catch (e) { /* ignore activity extraction errors */ }
+
+            const baseOpts = Object.assign({}, mapConfig.options || {});
+            baseOpts.center = center;
+            baseOpts.ui = baseOpts.ui || {};
+            if (mapConfig.ui && mapConfig.ui.modeToggleId) baseOpts.ui.modeToggleCheckboxId = mapConfig.ui.modeToggleId;
+
+            // Default: do NOT use Overpass (too many markers). Use explicit items only.
+            baseOpts.poi = Object.assign({}, baseOpts.poi || {}, { useOverpass: false, items: explicitItems });
+
+            // Insert a small control to toggle Nearby POIs (Overpass) on/off
+            const controlRow = el('div');
+            controlRow.style.marginTop = '6px';
+            controlRow.style.display = 'flex';
+            controlRow.style.alignItems = 'center';
+            controlRow.style.gap = '8px';
+            const cb = document.createElement('input');
+            const cbId = mapId + '-poi-toggle';
+            cb.type = 'checkbox';
+            cb.id = cbId;
+            cb.checked = false; // off by default to avoid Overpass overload
+            const lbl = el('label', null);
+            lbl.htmlFor = cbId;
+            lbl.textContent = 'Show nearby POIs';
+            controlRow.appendChild(cb);
+            controlRow.appendChild(lbl);
+            mapWrap.insertBefore(controlRow, mapDiv);
+
+            // give layout a moment to paint then init
+            setTimeout(() => {
+              try {
+                const api = initTripMap(mapId, baseOpts);
+                // Some save-as-complete / file:// viewing contexts or layout changes
+                // may leave Leaflet's internal size state stale. Force an invalidate
+                // and refresh shortly after init so tiles and controls render fully.
+                try { setTimeout(()=>{ api.map.invalidateSize(); api.refresh(); }, 220); } catch(e) { /* ignore */ }
+
+                // Wire toggle to switch between explicit items and Overpass
+                cb.addEventListener('change', () => {
+                  try {
+                    if (cb.checked) {
+                      // enable Overpass and clear explicit items
+                      api.config.poi.useOverpass = true;
+                      api.config.poi.items = [];
+                      api.refresh();
+                    } else {
+                      // disable Overpass and restore explicit items
+                      api.config.poi.useOverpass = false;
+                      api.config.poi.items = explicitItems.slice();
+                      api.refresh();
+                    }
+                    // After switching modes also nudge invalidate in case container changed
+                    try { setTimeout(()=>{ api.map.invalidateSize(); }, 120); } catch(e) {}
+                  } catch (e) { console.warn('POI toggle failed', e); }
+                });
+              } catch (e) { /* ignore map init errors */ }
+            }, 120);
+          }
+        }
+      } catch (e) {
+        console.warn('Activities map render failed', e);
+      }
+    }
+    
+    // Add watermark to right page
+    addWatermark(rightPage, config);
+    
+    // Add both pages to spread container
+    spreadContainer.appendChild(leftPage);
+    spreadContainer.appendChild(rightPage);
+    
+    root.appendChild(spreadContainer);
+  }
+
+  // ========== Orchestration ==========
+  function clearRender() { 
+    $('#renderTarget').innerHTML = '';
+    document.body.classList.remove('daily-planner');
+    // Reset word bank state on new render
+    usedWordIndices.clear();
+    allWords = [];
+  }
+  
+  function togglePicker(show) {
+    $('#controls').classList.toggle('hidden', !show);
+    $('#reloadWrap').classList.toggle('hidden', show);
+  }
+
+  function renderAll() {
+    clearRender();
+    const data = state.data;
+    const config = state.config;
+    const root = $('#renderTarget');
+    const lookup = buildActivityLookup(data.activities_catalog || []);
+
+    // Apply style
+    applyStyle(config);
+
+    renderTripCards(root, data, lookup, config);
+
+    const days = (data.day_collection || []).slice().sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+    const segments = Array.isArray(data.segment_collection) ? data.segment_collection : [];
+    const segInfo = segments.map(seg => {
+      const range = getRange(seg);
+      const segDays = range ? days.filter(d => dayInRange(d, range)) : [];
+      const firstDate = segDays.length ? segDays[0].date : null;
+      return { seg, segDays, firstDate, rendered: false };
+    });
+    const byFirstDate = new Map();
+    for (const info of segInfo) {
+      const key = info.firstDate;
+      if (!byFirstDate.has(key)) byFirstDate.set(key, []);
+      byFirstDate.get(key).push(info);
+    }
+
+    // Build a hotel lookup map from the trip data so renderDay can reference hotel details
+    const hotelLookup = new Map((data.hotels || []).map(h => [h.authoritative_name, h]));
+
+    for (const d of days) {
+      const infos = byFirstDate.get(d.date) || [];
+      for (const info of infos) {
+        if (!info.rendered) {
+          renderSegmentCard(root, info.seg, info.segDays, lookup, data, config);
+          info.rendered = true;
+        }
+      }
+      renderDay(root, d, lookup, data.kpi_mappings || {}, config, hotelLookup);
+    }
+
+    const stray = byFirstDate.get(null) || [];
+    for (const info of stray) {
+      if (!info.rendered) {
+        renderSegmentCard(root, info.seg, info.segDays, lookup, data, config);
+        info.rendered = true;
+      }
+    }
+  }
+
+  // ========== Events ==========
+  $('#loadBtn').addEventListener('click', async () => {
+    const dataInput = $('#dataFile');
+    const configInput = $('#configFile');
+    
+    if (!(dataInput.files && dataInput.files[0])) { 
+      alert('Select a trip JSON'); 
+      return; 
+    }
+    
+    try {
+      state.data = await readAsJson(dataInput.files[0]);
+    } catch (e) {
+      alert('Could not read trip JSON: ' + (e?.message || e));
+      return;
+    }
+    
+    // Config is optional
+    if (configInput.files && configInput.files[0]) {
+      try {
+        state.config = await readAsJson(configInput.files[0]);
+      } catch (e) {
+        alert('Could not read config JSON: ' + (e?.message || e));
+        return;
+      }
+    } else {
+      state.config = null; // No config provided, use clean style
+    }
+    
+    togglePicker(false);
+    renderAll();
+  });
+
+  $('#reloadLink').addEventListener('click', () => {
+    state.data = null;
+    state.config = null;
+    $('#dataFile').value = '';
+    $('#configFile').value = '';
+    clearRender();
+    togglePicker(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  $('#reloadLink').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      $('#reloadLink').click();
+    }
+  });
+
+  // Wire the secondary export button (visible after render) to reuse the export handler
+  (function(){
+    const btn = document.getElementById('exportBtn2');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      const primary = document.getElementById('exportBtn');
+      if (primary) primary.click();
+      else alert('Export not available yet. Render a guide first.');
+    });
+  })();
+
+  // Export standalone HTML (all inlined resources where possible)
+  $('#exportBtn').addEventListener('click', async () => {
+    if (!state.data) { alert('Render a guide first (Load Trip JSON → Render Guide) before exporting.'); return; }
+
+    const fetchTextSafe = async (url) => {
+      try {
+        const r = await fetch(url);
+        if (!r.ok) return null;
+        return await r.text();
+      } catch (e) { return null; }
+    };
+
+    // Attempt to inline Leaflet CSS/JS and the local map helper. If any fetch fails,
+    // fall back to leaving the original tag (so exported page still works when
+    // opened with network available).
+    const docHtml = document.documentElement.outerHTML;
+
+    // Gather resource URLs from the current document
+    const leafCssEl = document.querySelector('link[rel="stylesheet"][href*="leaflet"]');
+    const leafJsEl = document.querySelector('script[src*="leaflet"]');
+    const mapHelperEl = document.querySelector('script[src*="/maps/map.js"], script[src*="../maps/map.js"]');
+    const leafCssHref = leafCssEl ? leafCssEl.getAttribute('href') : null;
+    const leafJsHref = leafJsEl ? leafJsEl.getAttribute('src') : null;
+    const mapHelperHref = mapHelperEl ? mapHelperEl.getAttribute('src') : null;
+
+    // Fetch in parallel
+    const [leafCssText, leafJsText, mapHelperText] = await Promise.all([
+      leafCssHref ? fetchTextSafe(leafCssHref) : null,
+      leafJsHref ? fetchTextSafe(leafJsHref) : null,
+      mapHelperHref ? fetchTextSafe(mapHelperHref) : null
+    ]);
+
+    let outHtml = docHtml;
+
+    if (leafCssText) {
+      // replace any leaflet css link tag
+      outHtml = outHtml.replace(/<link[^>]*href=["'][^"']*leaflet[^"']*["'][^>]*>/i, '<style>\n' + leafCssText + '\n</style>');
+    }
+    if (leafJsText) {
+      outHtml = outHtml.replace(/<script[^>]*src=["'][^"']*leaflet[^"']*["'][^>]*>\s*<\/script>/i, '<script>\n' + leafJsText + '\n</' + 'script>');
+    }
+    if (mapHelperText) {
+      // map helper may be referenced as ../maps/map.js or /maps/map.js; do a robust substring replace
+      const mIdx = outHtml.indexOf('maps/map.js');
+      if (mIdx !== -1) {
+        const s = outHtml.lastIndexOf('<script', mIdx);
+    const e = outHtml.indexOf('</' + 'script>', mIdx);
+        if (s !== -1 && e !== -1) {
+          outHtml = outHtml.slice(0, s) + '<script>\n' + mapHelperText + '\n</' + 'script>' + outHtml.slice(e + 9);
+        }
+      }
+    }
+
+  // Ensure controls are hidden by default in exported HTML
+  outHtml = outHtml.replace('</head>', '<style>#controls,#reloadWrap{display:none !important}</style>\n</head>');
+
+    // Inject serialized data and config and a small boot script that invokes the renderer
+    var dataScript = '<script>window.__EXPORT_DATA__ = ' + JSON.stringify(state.data) + '; window.__EXPORT_CONFIG__ = ' + JSON.stringify(state.config) + ';<\/script>';
+    var bootScript = '' +
+      '<script>' +
+      '(function(){' +
+        'try{' +
+          'if (window.__EXPORT_DATA__) window.state = window.state || {}; window.state.data = window.__EXPORT_DATA__;' +
+          'if (window.__EXPORT_CONFIG__) window.state = window.state || {}; window.state.config = window.__EXPORT_CONFIG__;' +
+          '// hide picker controls and render' +
+          'try{ if (typeof togglePicker === \'function\') togglePicker(false); } catch(e){}' +
+          '// small delay to ensure DOM ready' +
+          'setTimeout(function(){ try{ if (typeof renderAll === \'function\') renderAll(); } catch(e){ console.error(\'renderAll failed\', e); } }, 60);' +
+        '}catch(e){ console.error(\'export boot failed\', e); }' +
+      '})();' +
+      '</' + 'script>';
+
+    // Place data script right before closing body
+    outHtml = outHtml.replace(/<\/body>\s*<\/html>/i, dataScript + bootScript + '</body></html>');
+
+    // Trigger download
+    try {
+      const blob = new Blob([outHtml], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (state.data && state.data.title ? state.data.title.replace(/[^a-z0-9]+/gi,'_') : 'trip') + '_standalone.html';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 2000);
+    } catch (e) { alert('Export failed: ' + (e?.message || e)); }
+  });
+  </script>
+</body>
+</html>

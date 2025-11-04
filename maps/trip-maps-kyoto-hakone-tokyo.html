@@ -1,0 +1,163 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trip Planner — Kyoto / Hakone / Tokyo Walking Maps</title>
+
+  <!-- Leaflet CSS/JS (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+
+  <!-- Isolated helper -->
+  <script src="map.js"></script>
+
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 1.25rem; }
+    h1 { margin: 0 0 1rem; }
+    h2 { margin: 1.25rem 0 .5rem; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    .mapbox { width: 100%; height: 420px; border-radius: 12px; }
+    .row { display: grid; grid-template-columns: 320px 1fr; gap: 1rem; align-items: start; }
+    .small { color: #666; font-size: .9rem; }
+    .stat { display: inline-block; padding: .2rem .5rem; border-radius: 6px; background: #f3f4f6; margin-top: .25rem; }
+    label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Trip Planner — City Walking Maps (+ Distance)</h1>
+  <p class="small">Toggle each section between a <strong>walking route</strong> and <strong>POIs</strong>. Distance shows for the route (OSRM when available; falls back to straight-line estimate).</p>
+
+  <!-- KYOTO -->
+  <section class="card">
+    <h2>Kyoto — MIMARU Shijo</h2>
+    <div class="row">
+      <div>
+        <label><input type="checkbox" id="toggle-kyoto" /> Show walking route (uncheck for POIs)</label>
+        <div class="small">Distance: <span id="dist-kyoto" class="stat">—</span></div>
+        <p class="small">Route: Hotel → Nishiki Market → Nijo Castle → Pontocho Alley → Hotel</p>
+      </div>
+      <div id="map-kyoto" class="mapbox"></div>
+    </div>
+  </section>
+
+  <!-- HAKONE -->
+  <section class="card">
+    <h2>Hakone — Hakone Airu (Yumoto)</h2>
+    <div class="row">
+      <div>
+        <label><input type="checkbox" id="toggle-hakone" /> Show walking route (uncheck for POIs)</label>
+        <div class="small">Distance: <span id="dist-hakone" class="stat">—</span></div>
+        <p class="small">Route: Hotel → Station → Tenzan Onsen → Tamadare Falls → Hotel</p>
+      </div>
+      <div id="map-hakone" class="mapbox"></div>
+    </div>
+  </section>
+
+  <!-- TOKYO -->
+  <section class="card">
+    <h2>Tokyo — MIMARU Akasaka</h2>
+    <div class="row">
+      <div>
+        <label><input type="checkbox" id="toggle-tokyo" /> Show walking route (uncheck for POIs)</label>
+        <div class="small">Distance: <span id="dist-tokyo" class="stat">—</span></div>
+        <p class="small">Route: Hotel → Akasaka Palace → Hie Shrine → Tokyo Midtown → Hotel</p>
+      </div>
+      <div id="map-tokyo" class="mapbox"></div>
+    </div>
+  </section>
+
+  <!-- KYOTO: Gion → Kiyomizu -->
+  <section class="card">
+    <h2>Kyoto — Gion to Kiyomizu Walk</h2>
+    <div class="row">
+      <div>
+        <label><input type="checkbox" id="toggle-gion" /> Show walking route (uncheck for POIs)</label>
+        <div class="small">Distance: <span id="dist-gion" class="stat">—</span></div>
+        <p class="small">Route: Yasaka Shrine → Hanamikoji → Yasui Konpiragu → Yasaka Pagoda → Sannenzaka → Kiyomizu Temple</p>
+      </div>
+      <div id="map-gion" class="mapbox"></div>
+    </div>
+  </section>
+
+  <script>
+    // KYOTO
+    initTripMap('map-kyoto', {
+      center: { lat: 35.0025, lng: 135.7602, label: 'MIMARU Shijo (Hotel)' },
+      zoom: 14,
+      mode: 'route',
+      route: {
+        waypoints: [
+          { lat: 35.0025, lng: 135.7602, label: 'Hotel' },
+          { lat: 35.0041, lng: 135.7649, label: 'Nishiki Market' },
+          { lat: 35.0142, lng: 135.7476, label: 'Nijo Castle' },
+          { lat: 35.0061, lng: 135.7696, label: 'Pontocho Alley' },
+          { lat: 35.0025, lng: 135.7602, label: 'Hotel' }
+        ],
+        requestRouting: true
+      },
+      poi: { radius: 900, categories: ['restaurant','temple','shrine','park','museum'], useOverpass: true },
+      ui: { modeToggleCheckboxId: 'toggle-kyoto', distanceElId: 'dist-kyoto' }
+    });
+
+    // HAKONE
+    initTripMap('map-hakone', {
+      center: { lat: 35.2332, lng: 139.1055, label: 'Hakone Airu (Hotel)' },
+      zoom: 15,
+      mode: 'route',
+      route: {
+        waypoints: [
+          { lat: 35.2332, lng: 139.1055, label: 'Hotel' },
+          { lat: 35.2324, lng: 139.1051, label: 'Hakone Yumoto Station' },
+          { lat: 35.2268, lng: 139.0997, label: 'Tenzan Onsen' },
+          { lat: 35.2282, lng: 139.1034, label: 'Tamadare Falls' },
+          { lat: 35.2332, lng: 139.1055, label: 'Hotel' }
+        ],
+        requestRouting: true
+      },
+      poi: { radius: 1200, categories: ['restaurant','temple','shrine','park'], useOverpass: true },
+      ui: { modeToggleCheckboxId: 'toggle-hakone', distanceElId: 'dist-hakone' }
+    });
+
+    // TOKYO
+    initTripMap('map-tokyo', {
+      center: { lat: 35.6736, lng: 139.7352, label: 'MIMARU Akasaka (Hotel)' },
+      zoom: 15,
+      mode: 'route',
+      route: {
+        waypoints: [
+          { lat: 35.6736, lng: 139.7352, label: 'Hotel' },
+          { lat: 35.6825, lng: 139.7305, label: 'Akasaka Palace' },
+          { lat: 35.6724, lng: 139.7414, label: 'Hie Shrine' },
+          { lat: 35.6667, lng: 139.7309, label: 'Tokyo Midtown' },
+          { lat: 35.6736, lng: 139.7352, label: 'Hotel' }
+        ],
+        requestRouting: true
+      },
+      poi: { radius: 900, categories: ['restaurant','temple','shrine','park','museum'], useOverpass: true },
+      ui: { modeToggleCheckboxId: 'toggle-tokyo', distanceElId: 'dist-tokyo' }
+    });
+
+    // KYOTO: Gion → Kiyomizu
+    initTripMap('map-gion', {
+      center: { lat: 35.0037, lng: 135.7786, label: 'Yasaka Shrine (Meet Here)' },
+      zoom: 16,
+      mode: 'route',
+      route: {
+        waypoints: [
+          { lat: 35.0037, lng: 135.7786, label: 'Yasaka Shrine' },
+          { lat: 35.0031, lng: 135.7759, label: 'Hanamikoji Street' },
+          { lat: 35.0022, lng: 135.7769, label: 'Yasui Konpiragu Shrine' },
+          { lat: 34.9992, lng: 135.7785, label: 'Yasaka Pagoda (Hokan-ji)' },
+          { lat: 34.9986, lng: 135.7780, label: 'Sannenzaka' },
+          { lat: 34.9949, lng: 135.7850, label: 'Kiyomizu Temple' }
+        ],
+        requestRouting: true
+      },
+      poi: { radius: 700, categories: ['restaurant','bakery','park','temple','shrine','museum'], useOverpass: true },
+      ui: { modeToggleCheckboxId: 'toggle-gion', distanceElId: 'dist-gion' }
+    });
+  </script>
+</body>
+</html>

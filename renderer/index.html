@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <title>Trip Planner - Renderer (Clean v4)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Leaflet (for maps) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <!-- Map helper (uses Leaflet) -->
+  <script src="../maps/map.js"></script>
   <style>
     /* ========== Design Tokens ========== */
     :root {
@@ -153,7 +158,7 @@
 
   <script>
   // ========== State/Helpers ==========
-  const state = { data: null };
+  const state = { data: null, rendererConfig: null };
   const DEBUG_DATES = new URLSearchParams(location.hash.slice(1)).get('debug') === '1';
   const $ = (sel, el=document) => el.querySelector(sel);
   function el(tag, className, text) {
@@ -180,8 +185,10 @@
   }
   function parseDateISO(d) {
     try {
-      const dt = new Date(d + 'T00:00:00Z');
-      return dt.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+      const p = String(d || '').split('-').map(Number);
+      if (p.length !== 3 || !p[0] || !p[1] || !p[2]) return String(d || '');
+      const dt = new Date(Date.UTC(p[0], p[1]-1, p[2]));
+      return new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }).format(dt);
     } catch { return String(d || ''); }
   }
   function fmtHours(h) { return (Number(h) || 0).toFixed(1) + 'h'; }
@@ -359,10 +366,86 @@
     addFootnote(card, aggregateTimeForDay(day, lookup));
     const notes = el('div', 'notes', 'Notes / Food: ');
     card.appendChild(notes);
+
+    // Optionally render a map under the day's notes when enabled in renderer config.
+    try {
+      const cfg = state.rendererConfig && state.rendererConfig.modules && state.rendererConfig.modules.activitiesAndLearning;
+      if (cfg && cfg.map && cfg.map.enabled) {
+        // Create a unique id per day
+        const mapId = 'map-day-' + String(day.date).replace(/[^0-9a-zA-Z_-]/g, '');
+        const mapWrap = el('div');
+        mapWrap.style.marginTop = '8px';
+        const mapDiv = el('div');
+        mapDiv.id = mapId;
+        mapDiv.style.width = '100%';
+        mapDiv.style.height = (cfg.map.height || '280px');
+        mapDiv.style.borderRadius = '8px';
+        mapDiv.style.overflow = 'hidden';
+        mapWrap.appendChild(mapDiv);
+        card.appendChild(mapWrap);
+
+        // Determine center: prefer a per-day center (cfg.map.centersByDate[day.date]),
+        // then cfg.map.center, else try to use first activity logistics coords
+        let center = null;
+        if (cfg.map.centersByDate && cfg.map.centersByDate[day.date]) {
+          center = cfg.map.centersByDate[day.date];
+        } else if (cfg.map.center) {
+          center = cfg.map.center;
+        }
+        if (!center) {
+          // Try extracting coords from the first activity in the day (if present)
+          const firstActName = (day.day_parts && day.day_parts[0] && day.day_parts[0].activity_authoritative_name) || null;
+          if (firstActName) {
+            const act = lookup.get(firstActName);
+            if (act && act.logistics && typeof act.logistics.latitude === 'number' && typeof act.logistics.longitude === 'number') {
+              center = { lat: act.logistics.latitude, lng: act.logistics.longitude, label: act.descriptive_name };
+            }
+          }
+        }
+
+        if (center) {
+          // Compose options for map helper: merge config's map options but ensure container and center are set
+          const mapOpts = Object.assign({}, cfg.map.options || {});
+          mapOpts.center = center;
+          mapOpts.ui = mapOpts.ui || {};
+          // No mode toggle id by default; user can set cfg.map.ui.modeToggleId
+          if (cfg.map.ui && cfg.map.ui.modeToggleId) mapOpts.ui.modeToggleCheckboxId = cfg.map.ui.modeToggleId;
+
+          // Initialize map helper (initTripMap is provided by ../maps/map.js)
+          try {
+            if (typeof initTripMap === 'function') {
+              // call after a short delay so layout settles
+              setTimeout(() => {
+                try { initTripMap(mapId, mapOpts); } catch (e) { /* ignore map init errors */ }
+              }, 120);
+            }
+          } catch (e) { /* ignore map helper errors */ }
+        }
+      }
+    } catch (e) {
+      // Do not block rendering if map logic fails
+      console.warn('Map render check failed', e);
+    }
+
     root.appendChild(card);
   }
 
   // ========== Orchestration ==========
+  // Load renderer config (optional) so UI modules like activities/learning maps can be enabled
+  async function loadRendererConfig() {
+    try {
+      const resp = await fetch('japan-planner-config.json');
+      if (!resp.ok) return;
+      state.rendererConfig = await resp.json();
+    } catch (e) {
+      // ignore — config is optional
+      state.rendererConfig = null;
+    }
+  }
+
+  // kick off loading config; rendering will consult state.rendererConfig when needed
+  loadRendererConfig();
+
   function clearRender() { $('#renderTarget').innerHTML = ''; }
   function togglePicker(show) {
     $('#controls').classList.toggle('hidden', !show);

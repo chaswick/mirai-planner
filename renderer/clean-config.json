@@ -1,0 +1,34 @@
+{
+  "style": "clean",
+  "modules": {
+    "wordBank": {
+      "enabled": false
+    },
+    "phraseOfDay": {
+      "enabled": false
+    },
+    "kanjiOfDay": {
+      "enabled": false
+    },
+    "funFacts": {
+      "enabled": false
+    },
+    "scavengerHunt": {
+      "enabled": false
+    },
+    "kidQuest": {
+      "enabled": false
+    },
+    "mealsChecklist": false,
+    "travelChecklist": false,
+    "notesSection": true,
+    "dayRating": true,
+    "decorativeWatermark": {
+      "enabled": false
+    },
+    "japaneseMicroseasons": {
+      "enabled": false
+    },
+    "japaneseLabels": false
+  }
+}

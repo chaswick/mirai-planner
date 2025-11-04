@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trip Planner — Map Demo</title>
+    <!-- Leaflet CSS/JS (CDN) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+
+    <!-- Your isolated helper -->
+    <script src="map.js"></script>
+
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 1rem; }
+      .row { display: grid; grid-template-columns: 280px 1fr; gap: 1rem; align-items: start; }
+      #map { width: 100%; height: 560px; border-radius: 12px; }
+      .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; }
+      label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
+      code { background: #f5f5f5; padding: .1rem .3rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Trip Planner — Map Demo</h1>
+    <div class="row">
+      <div class="card">
+        <p><label><input type="checkbox" id="map-mode-toggle" /> Show walking route (uncheck for POIs)</label></p>
+        <p><strong>Notes</strong></p>
+        <ul>
+          <li>POIs use OpenStreetMap’s <em>Overpass</em> API around the center if you don’t supply items.</li>
+          <li>Routes use OSRM’s public demo server for <em>foot</em> paths; falls back to straight lines if unavailable.</li>
+          <li>No API keys required. All logic lives in <code>map.js</code>.</li>
+        </ul>
+      </div>
+      <div id="map"></div>
+    </div>
+
+    <script>
+      // Example coords near central Kyoto as a placeholder.
+      const api = initTripMap('map', {
+        center: { lat: 35.0116, lng: 135.7681, label: 'Hotel (Example)' },
+        zoom: 15,
+        mode: 'poi', // initial
+        poi: {
+          radius: 800,
+          categories: ['convenience','restaurant','bakery','pharmacy','atm','station','park','temple','shrine','museum'],
+          useOverpass: true,
+          // items: [] // If provided, will be used instead of Overpass
+        },
+        route: {
+          // An example walking loop:
+          waypoints: [
+            { lat: 35.0116, lng: 135.7681, label: 'Hotel' },
+            { lat: 35.0145, lng: 135.7720, label: 'Stop 1' },
+            { lat: 35.0123, lng: 135.7760, label: 'Stop 2' },
+            { lat: 35.0098, lng: 135.7710, label: 'Stop 3' },
+            { lat: 35.0116, lng: 135.7681, label: 'Hotel' }
+          ],
+          requestRouting: true
+        },
+        ui: { modeToggleCheckboxId: 'map-mode-toggle' }
+      });
+
+      // You can also switch programmatically:
+      // api.setMode('route');
+      // api.refresh();
+      // api.fit();
+    </script>
+  </body>
+</html>

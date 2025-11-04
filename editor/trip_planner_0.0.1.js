@@ -342,6 +342,28 @@ function renderObjectFields(host, target, schema, basePath) {
       return;
     }
 
+    // Special case: hotel reference dropdown (by authoritative_name)
+    if ((key === 'hotel_authoritative_name')
+        && dataDoc && Array.isArray(dataDoc.hotels)) {
+      var selectHotel = createEl('select');
+      selectHotel.appendChild(createEl('option', { value: '' }, '-- select hotel --'));
+      dataDoc.hotels.forEach(function (h) {
+        var valueId = (h.authoritative_name != null ? String(h.authoritative_name) : '');
+        var labelTxt = (h.authoritative_name || '(no-authoritative)') + (h.descriptive_name ? ' – ' + h.descriptive_name : '');
+        var opt = createEl('option', { value: valueId }, labelTxt);
+        selectHotel.appendChild(opt);
+      });
+      var currentHotelVal = target[key];
+      selectHotel.value = (currentHotelVal != null) ? String(currentHotelVal) : '';
+      selectHotel.addEventListener('change', function(){
+        var v = selectHotel.value || '';
+        target[key] = v || null;
+      });
+      wrap.appendChild(selectHotel);
+      host.appendChild(wrap);
+      return;
+    }
+
     // Object
     if ((fieldSchema.type === 'object') || fieldSchema.properties) {
       if (typeof target[key] !== 'object' || target[key] == null || Array.isArray(target[key])) {

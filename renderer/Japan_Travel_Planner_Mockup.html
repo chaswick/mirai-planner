@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Japan Planner V3.6.3 (Full)</title>
+<style>
+  @page { size: Letter portrait; margin: 0.5in; }
+  @font-face {
+    font-family: 'NotoSansJP';
+    src: url('/mnt/data/NotoSansJP-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 900;
+    font-style: normal;
+  }
+  :root { --ink:#111; --muted:#6b7280; --line:#d1d5db; --light:#f3f4f6; }
+  body { font: 12px/1.35 "Helvetica", Arial, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { page-break-after: always; break-inside: avoid; }
+  header { border: 1px solid var(--line); background: var(--light); padding: 10px 12px 14px; position: relative; margin-bottom: 10px; }
+  header .title .main { font-weight:700; font-size: 18px; }
+  header .title .jp { font-family:'NotoSansJP',sans-serif; color: rgba(0,0,0,.35); font-size: 18px; }
+  header .title .jp .romaji { margin-left: 10px; font-family: inherit; font-size: 12px; color: var(--muted); }
+  header .sub { display:grid; grid-template-columns: 1.5fr 1fr; gap:10px; align-items:center; margin-top:4px; }
+  header .sub .sun { font-weight:700; font-size: 12.5px; }
+  header .sub .micro { color:var(--muted); font-size:11px; text-align:right; }
+  header .hotel { margin-top:4px; color: var(--muted); font-size: 11px; }
+  header .watermark { position:absolute; right:10px; bottom:0; font-family:'NotoSansJP',sans-serif; color:rgba(0,0,0,.08); font-size:64px; font-weight:700; pointer-events:none; }
+  .grid.two-col { display:grid; grid-template-columns: 1fr 0.9fr; gap:12px; }
+  .grid.two-col.tight { grid-template-columns:1fr 1fr; gap:12px; }
+  .block { border:1px solid var(--line); padding:9px; margin-bottom:10px; page-break-inside: avoid; }
+  .block.small { min-height:86px; }
+  .block.fixed { min-height:160px; }
+  h3 { margin:0 0 6px; font-size:12.5px; display:flex; align-items:center; gap:8px; }
+  h3 .jp-mini { font-family:'NotoSansJP',sans-serif; color: rgba(0,0,0,.35); font-size: 14px; margin-left:6px; }
+  .accent { width:80px; height:18px; color:#6b7280; }
+  .ruled line { vector-effect: non-scaling-stroke; }
+  .checks { display:flex; flex-wrap:wrap; gap:8px 14px; }
+  .checks .box { display:inline-block; width:10px; height:10px; border:1px solid var(--ink); margin-right:6px; vertical-align:-1px; }
+  .checks.meals .line { height:12px; border-bottom:1px solid var(--line); flex-basis:100%; margin-bottom:2px; }
+  .svgmap { width:100%; height:auto; display:block; }
+  .scav { list-style:none; margin:0; padding-left:4px; columns: 2; column-gap: 14px; }
+  .scav li { margin:5px 0; break-inside: avoid; }
+  footer { margin-top:6px; page-break-inside: avoid; }
+  .rate { display:flex; gap:8px; align-items:center; justify-content:flex-end; }
+  .rate .bubble { width:13px; height:13px; border:1px solid var(--ink); border-radius:50%; display:inline-block; }
+  .wordbank { display:flex; gap:10px; font-family:'NotoSansJP',sans-serif; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .wordbank .wb { border:1px solid var(--line); padding:2px 5px; border-radius:4px; }
+  .phrase-fact { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .pair { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .phrase .romaji { margin-left:8px; color:var(--muted); }
+  .muted { color: var(--muted); }
+
+  @media print {
+    .ruled line { stroke: #6b7280 !important; stroke-width: 1.4px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page travel">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 16 • Tampa → Osaka</div>
+    <div class="jp">旅<span class="romaji">Tampa → Osaka</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Depart — Sunrise 6:43 AM • Sunset 5:17 PM &nbsp;&nbsp; | &nbsp;&nbsp; Arrive — Sunrise 6:56 AM • Sunset 5:04 PM</div>
+    <div class="micro">金盞香 / kinsenka saku — Daffodils bloom</div>
+  </div>
+  
+  <div class="watermark">旅</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Our Journey Today<span class='jp-mini'>今日の旅</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel Packing<span class='jp-mini'>持ち物リスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Passports</label><label><span class='box'></span> Boarding passes</label><label><span class='box'></span> Luggage</label><label><span class='box'></span> Chargers</label><label><span class='box'></span> Kids tablets & headphones</label><label><span class='box'></span> Medications</label><label><span class='box'></span> TSA liquids set</label><label><span class='box'></span> Neck pillows</label></div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Food to Pack<span class='jp-mini'>食べ物チェック</span></h3><div class='checks'><label><span class='box'></span> Protein — onigiri (おにぎり) tuna‑mayo / boiled eggs</label><label><span class='box'></span> Carbs — melon‑pan / rice balls</label><label><span class='box'></span> Fruit — cut fruit cup / banana</label><label><span class='box'></span> Drinks — bottled tea / Pocari Sweat</label><label><span class='box'></span> Treats — Pocky / seasonal KitKats</label><label><span class='box'></span> Essentials — tissues / wet wipes / water bottle</label></div></div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">トイレはどこですか？</span> <span class="romaji">toire wa doko desu ka?</span></h3>
+    <div class="muted">Where is the restroom?</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Vending machines are everywhere—over 3 million in Japan.</div>
+  </div>
+</div>
+
+      <div class="pair">
+        <div class='block small'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M6 12c4 0 6-4 10-4l22-2 8-4' stroke='currentColor' fill='none'/><rect x='46' y='1' width='10' height='6' rx='1'/></svg>Kanji of the Day <span class='phrase'>トイレ</span> <span class='romaji'>toire</span></h3><div class='muted'>Restroom</div></div>
+        <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Notes<span class='jp-mini'>メモ</span></h3><svg class='ruled' viewBox='0 0 800 70' preserveAspectRatio='none' width='100%' height='70px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      </div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Scavenger Hunt / I Spy<span class='jp-mini'>たんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Airline tail logo</li><li><span class='box'></span> Gate number</li><li><span class='box'></span> Duty‑free shop</li><li><span class='box'></span> Bento shop</li><li><span class='box'></span> Vending machine</li><li><span class='box'></span> Japan mascot</li><li><span class='box'></span> Arrival customs sign</li><li><span class='box'></span> Airport train/shuttle</li><li><span class='box'></span> Currency exchange</li><li><span class='box'></span> Luggage cart</li><li><span class='box'></span> Boarding zone sign</li><li><span class='box'></span> Safety card</li><li><span class='box'></span> Wing photo</li><li><span class='box'></span> Runway lights</li><li><span class='box'></span> Welcome to Japan sign</li><li><span class='box'></span> Hand sanitizer station</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a mascot</label><label><span class='box'></span> Try a new snack</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+      <div class="block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='8' y='4' width='48' height='8' rx='4'/><rect x='20' y='7' width='6' height='2'/><rect x='38' y='7' width='2' height='2'/><circle cx='44' cy='8' r='1.5'/><circle cx='48' cy='8' r='1.5'/></svg>Word Bank<span class='jp-mini'>単語</span></h3><div class="wordbank">
+        <span class='wb'>朝 (asa) — morning</span><span class='wb'>昼 (hiru) — afternoon/day</span><span class='wb'>夜 (yoru) — night</span><span class='wb'>駅 (eki) — station</span><span class='wb'>食べ物 (tabemono) — food</span><span class='wb'>飲み物 (nomimono) — drink</span>
+      </div></div>
+    </div>
+    <aside class="col"></aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page travel">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 17 • Osaka → Kyoto</div>
+    <div class="jp">旅<span class="romaji">Osaka → Kyoto</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Depart — Sunrise 6:57 AM • Sunset 5:03 PM &nbsp;&nbsp; | &nbsp;&nbsp; Arrive — Sunrise 6:58 AM • Sunset 5:02 PM</div>
+    <div class="micro">虹蔵不見 / niji kakurete miezu — Rainbows hide away</div>
+  </div>
+  
+  <div class="watermark">旅</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Our Journey Today<span class='jp-mini'>今日の旅</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel Packing<span class='jp-mini'>持ち物リスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Passports</label><label><span class='box'></span> Boarding passes</label><label><span class='box'></span> Luggage</label><label><span class='box'></span> Chargers</label><label><span class='box'></span> Kids tablets & headphones</label><label><span class='box'></span> Medications</label><label><span class='box'></span> TSA liquids set</label><label><span class='box'></span> Neck pillows</label></div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Food to Pack<span class='jp-mini'>食べ物チェック</span></h3><div class='checks'><label><span class='box'></span> Protein — onigiri (おにぎり) tuna‑mayo / boiled eggs</label><label><span class='box'></span> Carbs — melon‑pan / rice balls</label><label><span class='box'></span> Fruit — cut fruit cup / banana</label><label><span class='box'></span> Drinks — bottled tea / Pocari Sweat</label><label><span class='box'></span> Treats — Pocky / seasonal KitKats</label><label><span class='box'></span> Essentials — tissues / wet wipes / water bottle</label></div></div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">ありがとうございます</span> <span class="romaji">arigatou gozaimasu</span></h3>
+    <div class="muted">Thank you very much</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>IC cards (Suica/ICOCA) work on transit and vending machines.</div>
+  </div>
+</div>
+
+      <div class="pair">
+        <div class='block small'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M6 12c4 0 6-4 10-4l22-2 8-4' stroke='currentColor' fill='none'/><rect x='46' y='1' width='10' height='6' rx='1'/></svg>Kanji of the Day <span class='phrase'>駅</span> <span class='romaji'>eki</span></h3><div class='muted'>Station</div></div>
+        <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Notes<span class='jp-mini'>メモ</span></h3><svg class='ruled' viewBox='0 0 800 70' preserveAspectRatio='none' width='100%' height='70px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      </div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Scavenger Hunt / I Spy<span class='jp-mini'>たんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> IC card logo (Suica/ICOCA)</li><li><span class='box'></span> Subway map</li><li><span class='box'></span> Taxi stand</li><li><span class='box'></span> Platform number</li><li><span class='box'></span> Ramen shop</li><li><span class='box'></span> Hotel sign</li><li><span class='box'></span> Convenience store (konbini)</li><li><span class='box'></span> Exit sign</li><li><span class='box'></span> Ticket gate beeps</li><li><span class='box'></span> Station melody</li><li><span class='box'></span> Elevator icon</li><li><span class='box'></span> Platform safety doors</li><li><span class='box'></span> Line color</li><li><span class='box'></span> Timetable board</li><li><span class='box'></span> Bus stop sign</li><li><span class='box'></span> Coin locker</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a mascot</label><label><span class='box'></span> Try a new snack</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+      <div class="block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='8' y='4' width='48' height='8' rx='4'/><rect x='20' y='7' width='6' height='2'/><rect x='38' y='7' width='2' height='2'/><circle cx='44' cy='8' r='1.5'/><circle cx='48' cy='8' r='1.5'/></svg>Word Bank<span class='jp-mini'>単語</span></h3><div class="wordbank">
+        <span class='wb'>朝 (asa) — morning</span><span class='wb'>昼 (hiru) — afternoon/day</span><span class='wb'>夜 (yoru) — night</span><span class='wb'>駅 (eki) — station</span><span class='wb'>食べ物 (tabemono) — food</span><span class='wb'>飲み物 (nomimono) — drink</span>
+      </div></div>
+    </div>
+    <aside class="col"></aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 18 • Kyoto (Mimaru Suites Shijo)</div>
+    <div class="jp">京都<span class="romaji">Kyoto (Mimaru Suites Shijo)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 6:58 AM • Sunset 5:02 PM</div>
+    <div class="micro">虹蔵不見 / niji kakurete miezu — Rainbows hide away</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 717-1 Inabadocho, Karasuma-dori Matsubara, Shimogyo-ku, Kyoto <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 075-366-2490 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">京都</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">すみません</span> <span class="romaji">sumimasen</span></h3>
+    <div class="muted">Excuse me / I’m sorry</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Nishiki Market is nicknamed “Kyoto’s Kitchen.”</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Kyoto abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="70" x2="400" y2="70" stroke-dasharray="4 3"/>
+    <line x1="180" y1="20" x2="180" y2="200"/>
+    <line x1="330" y1="20" x2="330" y2="200"/>
+  </g>
+  <circle cx="162" cy="106" r="5" fill="#999" stroke="#333"/>
+  <text x="175" y="110" class="label">MIMARU (You are here)</text>
+  <rect x="168" y="114" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="134" y="148" class="label">Gojo Station</text>
+  <rect x="168" y="63" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="130" y="60" class="label">Shijo Station</text>
+  <text x="28" y="64" class="label">Nishiki Market</text>
+  <line x1="28" y1="67" x2="200" y2="67" stroke="#888" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="95" r="4" fill="none" stroke="#333"/>
+  <text x="338" y="99" class="label">Kawaramachi</text>
+  <rect x="120" y="86" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="98" y="84" class="label">Konbini</text>
+  <rect x="210" y="136" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="196" y="152" class="label">Konbini</text>
+  <rect x="324" y="116" width="12" height="12" fill="none" stroke="#333"/>
+  <text x="304" y="132" class="label">Ramen</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Lanterns on a side street</li><li><span class='box'></span> Wooden machiya house</li><li><span class='box'></span> Fox statue (Inari)</li><li><span class='box'></span> Kimono rental sign</li><li><span class='box'></span> Noren curtain at a shop</li><li><span class='box'></span> River view (Kamo)</li><li><span class='box'></span> Temple stamp book (御朱印)</li><li><span class='box'></span> Matcha dessert photo</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 19 • Kyoto (Mimaru Suites Shijo)</div>
+    <div class="jp">京都<span class="romaji">Kyoto (Mimaru Suites Shijo)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 6:59 AM • Sunset 5:01 PM</div>
+    <div class="micro">虹蔵不見 / niji kakurete miezu — Rainbows hide away</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 717-1 Inabadocho, Karasuma-dori Matsubara, Shimogyo-ku, Kyoto <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 075-366-2490 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">京都</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">お願いします</span> <span class="romaji">onegaishimasu</span></h3>
+    <div class="muted">Please (polite)</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Tokyo Skytree is 634 m tall—‘634’ reads as ‘Musashi’.</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Kyoto abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="70" x2="400" y2="70" stroke-dasharray="4 3"/>
+    <line x1="180" y1="20" x2="180" y2="200"/>
+    <line x1="330" y1="20" x2="330" y2="200"/>
+  </g>
+  <circle cx="162" cy="106" r="5" fill="#999" stroke="#333"/>
+  <text x="175" y="110" class="label">MIMARU (You are here)</text>
+  <rect x="168" y="114" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="134" y="148" class="label">Gojo Station</text>
+  <rect x="168" y="63" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="130" y="60" class="label">Shijo Station</text>
+  <text x="28" y="64" class="label">Nishiki Market</text>
+  <line x1="28" y1="67" x2="200" y2="67" stroke="#888" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="95" r="4" fill="none" stroke="#333"/>
+  <text x="338" y="99" class="label">Kawaramachi</text>
+  <rect x="120" y="86" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="98" y="84" class="label">Konbini</text>
+  <rect x="210" y="136" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="196" y="152" class="label">Konbini</text>
+  <rect x="324" y="116" width="12" height="12" fill="none" stroke="#333"/>
+  <text x="304" y="132" class="label">Ramen</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Lanterns on a side street</li><li><span class='box'></span> Wooden machiya house</li><li><span class='box'></span> Fox statue (Inari)</li><li><span class='box'></span> Kimono rental sign</li><li><span class='box'></span> Noren curtain at a shop</li><li><span class='box'></span> River view (Kamo)</li><li><span class='box'></span> Temple stamp book (御朱印)</li><li><span class='box'></span> Matcha dessert photo</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 20 • Kyoto (Mimaru Suites Shijo)</div>
+    <div class="jp">京都<span class="romaji">Kyoto (Mimaru Suites Shijo)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:00 AM • Sunset 5:00 PM</div>
+    <div class="micro">虹蔵不見 / niji kakurete miezu — Rainbows hide away</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 717-1 Inabadocho, Karasuma-dori Matsubara, Shimogyo-ku, Kyoto <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 075-366-2490 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">京都</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">美味しい！</span> <span class="romaji">oishii!</span></h3>
+    <div class="muted">Delicious!</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Convenience stores have great onigiri (rice balls).</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Kyoto abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="70" x2="400" y2="70" stroke-dasharray="4 3"/>
+    <line x1="180" y1="20" x2="180" y2="200"/>
+    <line x1="330" y1="20" x2="330" y2="200"/>
+  </g>
+  <circle cx="162" cy="106" r="5" fill="#999" stroke="#333"/>
+  <text x="175" y="110" class="label">MIMARU (You are here)</text>
+  <rect x="168" y="114" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="134" y="148" class="label">Gojo Station</text>
+  <rect x="168" y="63" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="130" y="60" class="label">Shijo Station</text>
+  <text x="28" y="64" class="label">Nishiki Market</text>
+  <line x1="28" y1="67" x2="200" y2="67" stroke="#888" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="95" r="4" fill="none" stroke="#333"/>
+  <text x="338" y="99" class="label">Kawaramachi</text>
+  <rect x="120" y="86" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="98" y="84" class="label">Konbini</text>
+  <rect x="210" y="136" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="196" y="152" class="label">Konbini</text>
+  <rect x="324" y="116" width="12" height="12" fill="none" stroke="#333"/>
+  <text x="304" y="132" class="label">Ramen</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Lanterns on a side street</li><li><span class='box'></span> Wooden machiya house</li><li><span class='box'></span> Fox statue (Inari)</li><li><span class='box'></span> Kimono rental sign</li><li><span class='box'></span> Noren curtain at a shop</li><li><span class='box'></span> River view (Kamo)</li><li><span class='box'></span> Temple stamp book (御朱印)</li><li><span class='box'></span> Matcha dessert photo</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 21 • Kyoto (Mimaru Suites Shijo)</div>
+    <div class="jp">京都<span class="romaji">Kyoto (Mimaru Suites Shijo)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:00 AM • Sunset 5:00 PM</div>
+    <div class="micro">虹蔵不見 / niji kakurete miezu — Rainbows hide away</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 717-1 Inabadocho, Karasuma-dori Matsubara, Shimogyo-ku, Kyoto <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 075-366-2490 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">京都</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">大丈夫</span> <span class="romaji">daijoubu</span></h3>
+    <div class="muted">It’s okay / I’m fine</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Mascots (ゆるキャラ) represent towns and services.</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Kyoto abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="70" x2="400" y2="70" stroke-dasharray="4 3"/>
+    <line x1="180" y1="20" x2="180" y2="200"/>
+    <line x1="330" y1="20" x2="330" y2="200"/>
+  </g>
+  <circle cx="162" cy="106" r="5" fill="#999" stroke="#333"/>
+  <text x="175" y="110" class="label">MIMARU (You are here)</text>
+  <rect x="168" y="114" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="134" y="148" class="label">Gojo Station</text>
+  <rect x="168" y="63" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="130" y="60" class="label">Shijo Station</text>
+  <text x="28" y="64" class="label">Nishiki Market</text>
+  <line x1="28" y1="67" x2="200" y2="67" stroke="#888" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="95" r="4" fill="none" stroke="#333"/>
+  <text x="338" y="99" class="label">Kawaramachi</text>
+  <rect x="120" y="86" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="98" y="84" class="label">Konbini</text>
+  <rect x="210" y="136" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="196" y="152" class="label">Konbini</text>
+  <rect x="324" y="116" width="12" height="12" fill="none" stroke="#333"/>
+  <text x="304" y="132" class="label">Ramen</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Lanterns on a side street</li><li><span class='box'></span> Wooden machiya house</li><li><span class='box'></span> Fox statue (Inari)</li><li><span class='box'></span> Kimono rental sign</li><li><span class='box'></span> Noren curtain at a shop</li><li><span class='box'></span> River view (Kamo)</li><li><span class='box'></span> Temple stamp book (御朱印)</li><li><span class='box'></span> Matcha dessert photo</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page countryside">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 22 • Overnight Trip (TBD)</div>
+    <div class="jp">旅<span class="romaji">Overnight Trip (TBD)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:01 AM • Sunset 4:59 PM</div>
+    <div class="micro">北風木の葉を払う / kitakaze konoha o harau — North winds sweep the leaves</div>
+  </div>
+  
+  <div class="watermark">旅</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">いくらですか？</span> <span class="romaji">ikura desu ka?</span></h3>
+    <div class="muted">How much is it?</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Vending machines are everywhere—over 3 million in Japan.</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Map / Notes<span class='jp-mini'>地図・メモ</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 23 • Tokyo (Mimaru Akasaka)</div>
+    <div class="jp">東京<span class="romaji">Tokyo (Mimaru Akasaka)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:03 AM • Sunset 4:57 PM</div>
+    <div class="micro">北風木の葉を払う / kitakaze konoha o harau — North winds sweep the leaves</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 7-9-6 Akasaka, Minato-ku, Tokyo <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 03-6807-4344 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">東京</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">かわいい！</span> <span class="romaji">kawaii!</span></h3>
+    <div class="muted">So cute!</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>IC cards (Suica/ICOCA) work on transit and vending machines.</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Tokyo abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="85" x2="400" y2="85"/>
+    <line x1="140" y1="20" x2="140" y2="200"/>
+    <line x1="280" y1="20" x2="280" y2="200"/>
+  </g>
+  <circle cx="172" cy="128" r="5" fill="#999" stroke="#333"/>
+  <text x="184" y="132" class="label">MIMARU (You are here)</text>
+  <rect x="128" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="88" y="108" class="label">Akasaka Station</text>
+  <rect x="268" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="232" y="108" class="label">Akasaka‑Mitsuke</text>
+  <rect x="232" y="144" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="220" y="160" class="label">Konbini</text>
+  <rect x="120" y="72" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="100" y="68" class="label">Ramen</text>
+  <circle cx="320" cy="96" r="6" fill="none" stroke="#333"/>
+  <text x="298" y="112" class="label">Pocket Park</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Subway line color stripe</li><li><span class='box'></span> Gachapon machine</li><li><span class='box'></span> Anime poster</li><li><span class='box'></span> Convenience store on every corner</li><li><span class='box'></span> Vending machine cluster</li><li><span class='box'></span> Station melody</li><li><span class='box'></span> Highrise reflection</li><li><span class='box'></span> Cute character sign</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 24 • Tokyo (Mimaru Akasaka)</div>
+    <div class="jp">東京<span class="romaji">Tokyo (Mimaru Akasaka)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:04 AM • Sunset 4:56 PM</div>
+    <div class="micro">北風木の葉を払う / kitakaze konoha o harau — North winds sweep the leaves</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 7-9-6 Akasaka, Minato-ku, Tokyo <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 03-6807-4344 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">東京</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">写真を撮ってもいいですか？</span> <span class="romaji">shashin o totte mo ii desu ka?</span></h3>
+    <div class="muted">May I take a photo?</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Nishiki Market is nicknamed “Kyoto’s Kitchen.”</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Tokyo abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="85" x2="400" y2="85"/>
+    <line x1="140" y1="20" x2="140" y2="200"/>
+    <line x1="280" y1="20" x2="280" y2="200"/>
+  </g>
+  <circle cx="172" cy="128" r="5" fill="#999" stroke="#333"/>
+  <text x="184" y="132" class="label">MIMARU (You are here)</text>
+  <rect x="128" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="88" y="108" class="label">Akasaka Station</text>
+  <rect x="268" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="232" y="108" class="label">Akasaka‑Mitsuke</text>
+  <rect x="232" y="144" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="220" y="160" class="label">Konbini</text>
+  <rect x="120" y="72" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="100" y="68" class="label">Ramen</text>
+  <circle cx="320" cy="96" r="6" fill="none" stroke="#333"/>
+  <text x="298" y="112" class="label">Pocket Park</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Subway line color stripe</li><li><span class='box'></span> Gachapon machine</li><li><span class='box'></span> Anime poster</li><li><span class='box'></span> Convenience store on every corner</li><li><span class='box'></span> Vending machine cluster</li><li><span class='box'></span> Station melody</li><li><span class='box'></span> Highrise reflection</li><li><span class='box'></span> Cute character sign</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 25 • Tokyo (Mimaru Akasaka)</div>
+    <div class="jp">東京<span class="romaji">Tokyo (Mimaru Akasaka)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:04 AM • Sunset 4:56 PM</div>
+    <div class="micro">北風木の葉を払う / kitakaze konoha o harau — North winds sweep the leaves</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 7-9-6 Akasaka, Minato-ku, Tokyo <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 03-6807-4344 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">東京</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">駅</span> <span class="romaji">eki</span></h3>
+    <div class="muted">Station</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Tokyo Skytree is 634 m tall—‘634’ reads as ‘Musashi’.</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Tokyo abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="85" x2="400" y2="85"/>
+    <line x1="140" y1="20" x2="140" y2="200"/>
+    <line x1="280" y1="20" x2="280" y2="200"/>
+  </g>
+  <circle cx="172" cy="128" r="5" fill="#999" stroke="#333"/>
+  <text x="184" y="132" class="label">MIMARU (You are here)</text>
+  <rect x="128" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="88" y="108" class="label">Akasaka Station</text>
+  <rect x="268" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="232" y="108" class="label">Akasaka‑Mitsuke</text>
+  <rect x="232" y="144" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="220" y="160" class="label">Konbini</text>
+  <rect x="120" y="72" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="100" y="68" class="label">Ramen</text>
+  <circle cx="320" cy="96" r="6" fill="none" stroke="#333"/>
+  <text x="298" y="112" class="label">Pocket Park</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Subway line color stripe</li><li><span class='box'></span> Gachapon machine</li><li><span class='box'></span> Anime poster</li><li><span class='box'></span> Convenience store on every corner</li><li><span class='box'></span> Vending machine cluster</li><li><span class='box'></span> Station melody</li><li><span class='box'></span> Highrise reflection</li><li><span class='box'></span> Cute character sign</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page city">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 26 • Tokyo (Mimaru Akasaka)</div>
+    <div class="jp">東京<span class="romaji">Tokyo (Mimaru Akasaka)</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Sunrise 7:05 AM • Sunset 4:55 PM</div>
+    <div class="micro">北風木の葉を払う / kitakaze konoha o harau — North winds sweep the leaves</div>
+  </div>
+  <div class='hotel'><strong>Address</strong> 7-9-6 Akasaka, Minato-ku, Tokyo <span class='jp-mini'>住所</span> &nbsp; | &nbsp; <strong>Phone</strong> 03-6807-4344 <span class='jp-mini'>電話</span></div>
+  <div class="watermark">東京</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Morning<span class='jp-mini'>朝</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Afternoon<span class='jp-mini'>昼</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><circle cx='18' cy='8' r='3'/><circle cx='24' cy='8' r='3'/><circle cx='21' cy='5' r='3'/><circle cx='21' cy='11' r='3'/><circle cx='21' cy='8' r='2' fill='#fff'/></svg>Evening<span class='jp-mini'>夜</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Meals<span class='jp-mini'>食事</span></h3>
+        <div class="checks meals">
+          <label><span class="box"></span> Breakfast</label><div class="line"></div>
+          <label><span class="box"></span> Lunch</label><div class="line"></div>
+          <label><span class="box"></span> Dinner</label><div class="line"></div>
+        </div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel<span class='jp-mini'>交通</span></h3>
+        <div class='checks'><label><span class='box'></span> Taxi</label><label><span class='box'></span> Train</label><label><span class='box'></span> Walking</label><label><span class='box'></span> Subway</label><label><span class='box'></span> Bus</label></div>
+      </div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">トイレはどこですか？</span> <span class="romaji">toire wa doko desu ka?</span></h3>
+    <div class="muted">Where is the restroom?</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Convenience stores have great onigiri (rice balls).</div>
+  </div>
+</div>
+
+    </div>
+    <aside class="col">
+      <div class="map block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Neighborhood Map (abstract)<span class='jp-mini'>ちかくの地図</span></h3>
+<svg viewBox="0 0 420 220" class="svgmap" role="img" aria-label="Tokyo abstract map">
+  <rect x="1" y="1" width="418" height="218" fill="none" stroke="#333" stroke-width="1"/>
+  <g stroke="#ddd">
+    <line x1="105" y1="10" x2="105" y2="210"/>
+    <line x1="210" y1="10" x2="210" y2="210"/>
+    <line x1="315" y1="10" x2="315" y2="210"/>
+    <line x1="10" y1="55" x2="410" y2="55"/>
+    <line x1="10" y1="110" x2="410" y2="110"/>
+    <line x1="10" y1="165" x2="410" y2="165"/>
+  </g>
+  <g stroke="#555">
+    <line x1="20" y1="120" x2="400" y2="120"/>
+    <line x1="20" y1="85" x2="400" y2="85"/>
+    <line x1="140" y1="20" x2="140" y2="200"/>
+    <line x1="280" y1="20" x2="280" y2="200"/>
+  </g>
+  <circle cx="172" cy="128" r="5" fill="#999" stroke="#333"/>
+  <text x="184" y="132" class="label">MIMARU (You are here)</text>
+  <rect x="128" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="88" y="108" class="label">Akasaka Station</text>
+  <rect x="268" y="113" width="24" height="14" fill="none" stroke="#333"/>
+  <text x="232" y="108" class="label">Akasaka‑Mitsuke</text>
+  <rect x="232" y="144" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="220" y="160" class="label">Konbini</text>
+  <rect x="120" y="72" width="8" height="8" fill="none" stroke="#333"/>
+  <text x="100" y="68" class="label">Ramen</text>
+  <circle cx="320" cy="96" r="6" fill="none" stroke="#333"/>
+  <text x="298" y="112" class="label">Pocket Park</text>
+  <style>.label{font:10px Helvetica,Arial,sans-serif; fill:#222;}</style>
+</svg>
+</div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Local Scavenger Hunt<span class='jp-mini'>ローカルたんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Subway line color stripe</li><li><span class='box'></span> Gachapon machine</li><li><span class='box'></span> Anime poster</li><li><span class='box'></span> Convenience store on every corner</li><li><span class='box'></span> Vending machine cluster</li><li><span class='box'></span> Station melody</li><li><span class='box'></span> Highrise reflection</li><li><span class='box'></span> Cute character sign</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a shrine gate</label><label><span class='box'></span> Try a local treat</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+    </aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+
+<div class="page travel">
+  
+<header>
+  <div class="title">
+    <div class="main">Nov 27 • Tokyo → Tampa</div>
+    <div class="jp">旅<span class="romaji">Tokyo → Tampa</span></div>
+  </div>
+  <div class="sub">
+    <div class='sun'>Depart — Sunrise 7:06 AM • Sunset 4:54 PM &nbsp;&nbsp; | &nbsp;&nbsp; Arrive — Sunrise 6:48 AM • Sunset 5:12 PM</div>
+    <div class="micro">橘始黄 / tachibana hajimete kibamu — Mandarins turn yellow</div>
+  </div>
+  
+  <div class="watermark">旅</div>
+</header>
+
+  <section class="grid two-col">
+    <div class="col">
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Our Journey Today<span class='jp-mini'>今日の旅</span></h3><svg class='ruled' viewBox='0 0 800 100' preserveAspectRatio='none' width='100%' height='100px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='72' x2='800' y2='72' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='84' x2='800' y2='84' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='96' x2='800' y2='96' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 200 40' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28h150c8 0 14-6 14-12 0-5-3-10-10-12-10-3-20-4-30-4H86c-18 0-34 12-42 20'/><path d='M20 34h160M20 30h120'/><path d='M138 12h24'/></g><g fill='currentColor'><polygon points='70,22 98,22 92,14 64,14'/><polygon points='100,22 124,22 118,14 94,14'/></g></svg>Travel Packing<span class='jp-mini'>持ち物リスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Passports</label><label><span class='box'></span> Boarding passes</label><label><span class='box'></span> Luggage</label><label><span class='box'></span> Chargers</label><label><span class='box'></span> Kids tablets & headphones</label><label><span class='box'></span> Medications</label><label><span class='box'></span> TSA liquids set</label><label><span class='box'></span> Neck pillows</label></div>
+      </div>
+      <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M8 8h48M12 8c0 6 40 6 40 0' stroke='currentColor' fill='none'/><line x1='20' y1='3' x2='20' y2='8'/><line x1='24' y1='3' x2='24' y2='8'/><line x1='28' y1='3' x2='28' y2='8'/></svg>Food to Pack<span class='jp-mini'>食べ物チェック</span></h3><div class='checks'><label><span class='box'></span> Protein — onigiri (おにぎり) tuna‑mayo / boiled eggs</label><label><span class='box'></span> Carbs — melon‑pan / rice balls</label><label><span class='box'></span> Fruit — cut fruit cup / banana</label><label><span class='box'></span> Drinks — bottled tea / Pocari Sweat</label><label><span class='box'></span> Treats — Pocky / seasonal KitKats</label><label><span class='box'></span> Essentials — tissues / wet wipes / water bottle</label></div></div>
+      
+<div class="phrase-fact">
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><rect x='24' y='2' width='16' height='12' rx='6' stroke='currentColor' fill='none'/><line x1='24' y1='4' x2='40' y2='4' stroke='currentColor'/><line x1='24' y1='12' x2='40' y2='12' stroke='currentColor'/></svg>Phrase of the Day <span class="phrase">ありがとうございます</span> <span class="romaji">arigatou gozaimasu</span></h3>
+    <div class="muted">Thank you very much</div>
+  </div>
+  <div class="block small">
+    <h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Fun Fact about Japan</h3>
+    <div>Mascots (ゆるキャラ) represent towns and services.</div>
+  </div>
+</div>
+
+      <div class="pair">
+        <div class='block small'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M6 12c4 0 6-4 10-4l22-2 8-4' stroke='currentColor' fill='none'/><rect x='46' y='1' width='10' height='6' rx='1'/></svg>Kanji of the Day <span class='phrase'>乗り換え</span> <span class='romaji'>norikae</span></h3><div class='muted'>Transfer</div></div>
+        <div class='block'><h3><svg class='accent' viewBox='0 0 64 16'><path d='M4 14a12 12 0 0 1 56 0H4z' fill='none' stroke='currentColor'/><path d='M32 14V6M20 14l4-6M44 14l-4-6' stroke='currentColor'/></svg>Notes<span class='jp-mini'>メモ</span></h3><svg class='ruled' viewBox='0 0 800 70' preserveAspectRatio='none' width='100%' height='70px'><line x1='0' y1='12' x2='800' y2='12' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='24' x2='800' y2='24' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='36' x2='800' y2='36' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='48' x2='800' y2='48' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/><line x1='0' y1='60' x2='800' y2='60' stroke='#9ca3af' stroke-width='1.25' shape-rendering='crispEdges' vector-effect='non-scaling-stroke'/></svg></div>
+      </div>
+      <div class="block fixed">
+        <h3><svg class='accent' viewBox='0 0 64 16'><rect x='6' y='10' width='4' height='6'/><rect x='54' y='10' width='4' height='6'/><rect x='2' y='6' width='60' height='3'/><rect x='0' y='2' width='64' height='3'/></svg>Scavenger Hunt / I Spy<span class='jp-mini'>たんけん</span></h3>
+        <ul class="scav"><li><span class='box'></span> Souvenir shop</li><li><span class='box'></span> Departure board</li><li><span class='box'></span> Check‑in kiosks</li><li><span class='box'></span> Security line sign</li><li><span class='box'></span> Airline mascot</li><li><span class='box'></span> Mailbox (post)</li><li><span class='box'></span> Train to airport</li><li><span class='box'></span> Goodbye photo spot</li><li><span class='box'></span> Window Mt. Fuji (if lucky!)</li><li><span class='box'></span> Boarding group number</li><li><span class='box'></span> Seat map</li><li><span class='box'></span> Last konbini snack</li><li><span class='box'></span> Immigration stamp</li><li><span class='box'></span> Baggage tag</li><li><span class='box'></span> Duty‑free samples</li><li><span class='box'></span> Boarding bridge</li></ul>
+      </div>
+      <div class="block quest"><h3><svg class='accent' viewBox='0 0 64 16'><path d='M2 12h60M10 12l7-3h30l7 3M16 9l6-3h20l6 3M22 6l4-3h12l4 3M32 3V12' stroke='currentColor' fill='none'/></svg>Kid Daily Quest<span class='jp-mini'>こどものクエスト</span></h3>
+        <div class='checks'><label><span class='box'></span> Spot a mascot</label><label><span class='box'></span> Try a new snack</label><label><span class='box'></span> Learn 1 Japanese word</label><label><span class='box'></span> Write 1 highlight</label></div>
+      </div>
+      <div class="block"><h3><svg class='accent' viewBox='0 0 64 16'><rect x='8' y='4' width='48' height='8' rx='4'/><rect x='20' y='7' width='6' height='2'/><rect x='38' y='7' width='2' height='2'/><circle cx='44' cy='8' r='1.5'/><circle cx='48' cy='8' r='1.5'/></svg>Word Bank<span class='jp-mini'>単語</span></h3><div class="wordbank">
+        <span class='wb'>朝 (asa) — morning</span><span class='wb'>昼 (hiru) — afternoon/day</span><span class='wb'>夜 (yoru) — night</span><span class='wb'>駅 (eki) — station</span><span class='wb'>食べ物 (tabemono) — food</span><span class='wb'>飲み物 (nomimono) — drink</span>
+      </div></div>
+    </div>
+    <aside class="col"></aside>
+  </section>
+  <footer><div class="rate"><span>Rate the day:</span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div></footer>
+</div>
+</body></html>
