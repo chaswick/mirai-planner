@@ -154,6 +154,7 @@
   <script>
   // ========== State/Helpers ==========
   const state = { data: null };
+  const DEBUG_DATES = new URLSearchParams(location.hash.slice(1)).get('debug') === '1';
   const $ = (sel, el=document) => el.querySelector(sel);
   function el(tag, className, text) {
     const n = document.createElement(tag);
