@@ -1,0 +1,310 @@
+/* Tab styles for tabbed panes */
+#tabbar {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+#tabbar .tab-btn {
+  background: #e0e7ef;
+  border: 1px solid #bfc9d1;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 6px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #2c3e50;
+  outline: none;
+  transition: background 0.15s;
+}
+#tabbar .tab-btn.active {
+  background: #fff;
+  color: #1976d2;
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+}
+#panes {
+  border-top: none;
+  margin-top: 0;
+}
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block !important;
+}
+/* Days special two-column layout */
+#tab-days .days-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+#tab-days .days-left,
+#tab-days .days-right {
+  min-width: 0;
+}
+#tab-days #days-form-area .object-edit-form {
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 900px) {
+  #tab-days .days-two-col { grid-template-columns: 1fr; }
+}
+
+/* Segments two-column layout */
+#tab-segments .segments-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+#tab-segments .segments-left,
+#tab-segments .segments-right { min-width: 0; }
+#tab-segments #segments-form-area .object-edit-form { max-width: 100%; width: 100%; box-sizing: border-box; }
+
+/* Trips two-column layout */
+#tab-trips .trips-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+#tab-trips .trips-left,
+#tab-trips .trips-right { min-width: 0; }
+#tab-trips #trips-form-area .object-edit-form { max-width: 100%; width: 100%; box-sizing: border-box; }
+
+@media (max-width: 900px) {
+  #tab-segments .segments-two-col, #tab-trips .trips-two-col { grid-template-columns: 1fr; }
+}
+
+/* Derived list boxes (right side) */
+.derived-list {
+  margin-top: 10px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  background: #fcfdff;
+  padding: 8px 10px;
+}
+.derived-list h4 { margin: 0 0 6px 0; font-size: 1em; color: #2c3e50; }
+.derived-list ul { margin: 0; padding-left: 18px; }
+.derived-list li { margin: 2px 0; }
+/* Tabbed list and KPI row styles */
+.tab-list-item {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  background: #f3f6fa;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 3px 6px;
+  align-items: center;
+}
+.tab-list-label {
+  flex: 1;
+  font-size: 0.97em;
+  cursor: pointer;
+}
+.tab-kpi-row {
+  display: flex;
+  gap: 6px;
+  background: #f3f6fa;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 3px 6px;
+  align-items: center;
+}
+.tab-kpi-label {
+  flex: 1;
+  font-size: 0.97em;
+  cursor: pointer;
+}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f8f9fa;
+  margin: 0;
+  padding: 0 0 40px 0;
+}
+
+div#editor {
+  margin: 18px 0 24px 0;
+  border: 1px solid #bfc9d1;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 8px #0001;
+}
+
+#panes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 18px;
+}
+#panes section {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 12px 16px 10px 16px;
+  min-width: 220px;
+  box-shadow: 0 1px 4px #0001;
+}
+#panes h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+#panes button {
+  margin-bottom: 8px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.98em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#panes button:hover {
+  background: #125ea7;
+}
+#panes ul {
+  padding-left: 0;
+  margin: 0;
+}
+#panes li {
+  background: #f3f6fa;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 3px 6px;
+  align-items: center;
+}
+#panes li span {
+  flex: 1;
+  font-size: 0.97em;
+}
+#panes li button {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 0.93em;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#panes li button:hover {
+  background: #b71c1c;
+}
+#kpi_mappings > div {
+  background: #f3f6fa;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+}
+#kpi_mappings button {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 0.93em;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#kpi_mappings button:hover {
+  background: #b71c1c;
+}
+#status {
+  margin-left: 18px;
+  font-weight: bold;
+  color: #388e3c;
+  font-size: 1em;
+}
+#status:empty { display: none; }
+#out {
+  background: #fff3e0;
+  color: #bf360c;
+  border: 1px solid #ffe0b2;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: 18px;
+  font-size: 0.98em;
+  max-width: 900px;
+  overflow-x: auto;
+}
+#out:empty { display: none; }
+
+/* Object editor form styles */
+.object-edit-form {
+  margin-top: 12px;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 4px #0001;
+  max-width: 960px;
+}
+.object-edit-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.object-edit-form label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.object-edit-form input[type="text"],
+.object-edit-form input[type="number"],
+.object-edit-form select,
+.object-edit-form textarea {
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 0.98em;
+}
+.object-edit-form textarea {
+  min-height: 70px;
+}
+.object-edit-form fieldset {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px 10px 10px;
+  margin: 8px 0 10px 0;
+  background: #f9fbfd;
+}
+.object-edit-form fieldset legend {
+  padding: 0 6px;
+  font-size: 0.95em;
+  color: #475569;
+}
+.object-edit-form .array-list > .array-item {
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: #fcfdff;
+}
+.object-edit-form button[type="submit"] {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.98em;
+  cursor: pointer;
+}
+.object-edit-form button[type="submit"]:hover {
+  background: #125ea7;
+}
+.enum-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px 12px;
+}
+/* */
